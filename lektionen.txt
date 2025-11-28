@@ -1,0 +1,673 @@
+# PROMPT: GO-LEKTIONEN - INHALTLICHER, TAKTISCHER, METHODISCHER UND TECHNISCHER AUFBAU
+
+## ÜBERBLICK
+
+Dieser Prompt beschreibt den detaillierten inhaltlichen, taktischen, methodischen und technischen Aufbau der Go-Lektionen für ein interaktives Lernprogramm auf einem 9×9 Brett. Jede Lektion soll pädagogisch strukturiert sein, um Anfängern die Grundlagen des Go-Spiels systematisch beizubringen.
+
+---
+
+## PÄDAGOGISCHER AUFBAU - LERNPROGRESSION
+
+### Grundprinzip: Vom Einfachen zum Komplexen
+Die Lektionen folgen einer strengen Progression:
+1. **Einführung** → Grundregeln und Spielziel verstehen
+2. **Gebiet zählen** → Ziel des Spiels verstehen (warum spielt man Go?)
+3. **Steine & Freiheiten** → Fundamentale Mechanik verstehen
+4. **Schlagen** → Taktische Grundlagen erlernen
+5. **Ko-Regel** → Spezialregel verstehen
+6. **Augen & Leben** → Strategische Konzepte erlernen
+7. **Formen** → Lokale Taktik verfeinern
+8. **Atari Go** → Vereinfachte Variante zum Üben
+9. **Praxis** → Vollständiges Spiel anwenden
+
+### Methodisches Prinzip: "Learning by Doing"
+- Jede Lektion ist interaktiv
+- Theorie wird sofort durch Praxis verfestigt
+- Visuelles Feedback bei jedem Zug
+- Sofortige Korrektur bei Fehlern
+- Progressive Schwierigkeitssteigerung innerhalb jeder Lektion
+
+---
+
+## LEKTION 0: EINFÜHRUNG (intro)
+
+### Inhaltliche Ziele
+- Spielziel verstehen: Mehr Gebiet als der Gegner kontrollieren
+- Grundregeln kennenlernen
+- Brett und Koordinatensystem verstehen
+- Spielablauf verstehen (Schwarz beginnt, abwechselnd, Passen, Spielende)
+
+### Taktische Ziele
+- Keine taktischen Ziele (nur Grundverständnis)
+
+### Methodischer Aufbau
+1. **Hero-Header**: Große Überschrift "So spielt man Go" mit Untertitel
+2. **Grundregeln-Karten**: 6-8 einfache Regeln in übersichtlichen Karten
+   - Zwei Spieler: Schwarz beginnt, Weiß folgt
+   - Steine auf Schnittpunkte (nicht in Felder)
+   - Einmal gelegt = bleibt liegen
+   - Ziel: Mehr Gebiet umschließen
+   - Umzingeln = Schlagen
+   - Beide passen = Spielende
+3. **Interaktives Brett**: Einfaches 9×9 Brett zum Ausprobieren
+   - Spieler können Steine platzieren (Schwarz beginnt)
+   - Hover-Vorschau zeigt nächsten Zug
+   - Reset-Button zum Neustarten
+   - Keine Regelnforcement (nur zum Ausprobieren)
+4. **Erweiterte Konzepte** (rechts vom Brett):
+   - **Komi**: Erklärung warum Weiß Kompensation bekommt (+5½ oder +6½)
+   - **Passen & Spielende**: Wann und warum man passt
+   - **Gebiet**: Was ist Gebiet? (leere Punkte, umgeben von eigenen Steinen)
+   - **Brettgrößen**: 9×9, 13×13, 19×19 erklärt
+   - **Tipp**: Empfehlung mit 9×9 zu starten
+5. **Call-to-Action**: Button "Grundlagen lernen beginnen" → führt zu Lektion 1
+
+### Technische Umsetzung
+- Interaktives BoardSvg mit einfachem State Management
+- Keine Engine-Validierung (nur visuelles Feedback)
+- Hover-Funktionalität für Vorschau
+- Reset-Funktion
+
+---
+
+## LEKTION 1: GEBIET ZÄHLEN & GEWINNEN (counting)
+
+### Inhaltliche Ziele
+- Verstehen, dass Go um Gebiet geht, nicht nur ums Schlagen
+- Verstehen, wie ein Spiel endet
+- Verstehen, wie Punkte gezählt werden
+- Verstehen, was "tote Steine" sind
+- Verstehen, wie Komi funktioniert
+
+### Taktische Ziele
+- Gebiet vs. Gefangene Steine verstehen
+- Tote Steine identifizieren können
+- Finale Punktzahl berechnen können
+
+### Methodischer Aufbau
+
+#### Teil 1: Grundlegendes Zählen
+1. **Vorkonfiguriertes fertiges Spiel**:
+   - Schwarzes Gebiet: 19 Punkte (A1-I5 Region)
+   - Weißes Gebiet: 13 Punkte (B7-I9 Region)
+   - Vorgegebene Steine auf dem Brett
+2. **Interaktive Gebiets-Hervorhebung**:
+   - Button "Schwarzes Gebiet zeigen" → zeigt alle schwarzen Gebietspunkte
+   - Button "Weißes Gebiet zeigen" → zeigt alle weißen Gebietspunkte
+   - Gebietspunkte werden als kleine graue/weiße Punkte visualisiert
+3. **Gebietszählung**:
+   - Automatische Anzeige: "Schwarz: 19 Punkte Gebiet"
+   - Automatische Anzeige: "Weiß: 13 Punkte Gebiet"
+4. **Tote Steine markieren**:
+   - Toggle "Tote Steine markieren"
+   - Klick auf Steine markiert sie als tot
+   - Tote Steine werden mit rotem Kreis markiert und ausgegraut
+   - Tote Steine zählen als Gefangene für den Gegner
+5. **Komi-Einstellung**:
+   - Dropdown: 5.5, 6.5, 7.5
+   - Erklärung: "Weiß bekommt Komi, weil Schwarz zuerst zieht"
+6. **Finale Punktzahl**:
+   - Schwarz: Gebiet + Gefangene Weiß-Steine
+   - Weiß: Gebiet + Gefangene Schwarz-Steine + Komi
+   - Automatische Berechnung und Anzeige
+   - Gewinner wird hervorgehoben
+
+#### Teil 2: Fortgeschrittenes Zählen
+- Komplexeres Szenario mit mehreren Gruppen
+- Tote Steine in verschiedenen Situationen
+- Komi-Variationen testen
+- Verschiedene Spielenden-Szenarien
+
+### Technische Umsetzung
+- Vorkonfigurierter Board-State mit spezifischen Steinen
+- Territory-Point-Arrays für Schwarz und Weiß
+- Dead-Stone-Marking-System (Toggle-Modus)
+- Komi-Dropdown mit 3 Optionen
+- Live-Score-Berechnung
+- Visualisierung von Gebietspunkten auf dem Brett
+
+---
+
+## LEKTION 2: STEINE PLATZIEREN & FREIHEITEN (rules)
+
+### Inhaltliche Ziele
+- Verstehen, dass Steine auf Schnittpunkte gesetzt werden
+- Verstehen, was "Freiheiten" (Liberties) sind
+- Verstehen, wie Steine zu Gruppen verbunden werden
+- Verstehen, dass verbundene Steine Freiheiten teilen
+- Verstehen, dass Gruppen ohne Freiheiten geschlagen werden
+
+### Taktische Ziele
+- Freiheiten zählen können
+- Erkennen, welche Gruppen sicher sind
+- Erkennen, welche Gruppen in Gefahr sind
+- Verstehen, wie sich Freiheiten ändern, wenn Steine sich verbinden
+
+### Methodischer Aufbau
+1. **Nur schwarze Steine** (Fokus auf Lernen, nicht auf Spiel):
+   - Nur Schwarz kann Steine setzen
+   - Keine weißen Steine (vereinfacht das Lernen)
+2. **Interaktive Freiheiten-Hervorhebung**:
+   - Nach jedem Zug werden ALLE Freiheiten der verbundenen Gruppe rot hervorgehoben
+   - Hervorhebung bleibt 3.5 Sekunden sichtbar
+   - Fade-Animation: 150ms einblenden → 3.5s sichtbar → 300ms ausblenden
+3. **Zughistorie mit Freiheiten-Analyse**:
+   - Tabelle zeigt jeden Zug:
+     - Zugnummer
+     - Position (z.B. "D4")
+     - Anzahl Freiheiten
+     - Gruppengröße (1 Stein, 2 Steine, 3 Steine, große Gruppe)
+     - Gruppentyp (Einzelstein, Paar, Trio, große Gruppe)
+4. **Progressive Beispiele**:
+   - Schritt 1: Einzelner Stein (4 Freiheiten)
+   - Schritt 2: Zwei verbundene Steine (6 Freiheiten gemeinsam)
+   - Schritt 3: Drei verbundene Steine (8 Freiheiten gemeinsam)
+   - Schritt 4: Größere Gruppe (zeigt wie Freiheiten geteilt werden)
+5. **Visuelles Feedback**:
+   - Rote Kreise markieren Freiheiten
+   - Text: "Zeigt X Freiheiten der verbundenen Gruppe"
+   - Animation macht deutlich, dass ALLE Freiheiten der Gruppe gezeigt werden
+
+### Technische Umsetzung
+- `getLiberties()` Funktion aus Engine
+- `getGroup()` Funktion aus Engine
+- Liberty-Highlighting mit SVG-Kreisen
+- Move-History-State mit Liberty-Informationen
+- Auto-Highlighting nach jedem Zug (3.5s Dauer)
+- Nur schwarze Steine erlaubt (Engine-Validierung)
+
+---
+
+## LEKTION 3: GRUPPEN SCHLAGEN (capture)
+
+### Inhaltliche Ziele
+- Verstehen, wie man gegnerische Gruppen schlägt
+- Verstehen, dass Gruppen mit 0 Freiheiten geschlagen werden
+- Verstehen, dass man alle Freiheiten einer Gruppe blockieren muss
+- Verstehen, dass größere Gruppen mehr Züge zum Schlagen brauchen
+
+### Taktische Ziele
+- Atari erkennen (Gruppe mit 1 Freiheit)
+- Schlagsequenzen planen können
+- Verschiedene Gruppengrößen schlagen können
+- Verstehen, dass verbundene Gruppen gemeinsam geschlagen werden müssen
+
+### Methodischer Aufbau
+1. **5 progressive Aufgaben** (steigende Schwierigkeit):
+   
+   **Aufgabe 1: Einzelner Stein schlagen**
+   - Weißer Stein bei B2 (1 Freiheit)
+   - Ziel: Setze schwarzen Stein, um den weißen zu schlagen
+   - Lernziel: Einfachste Schlagsituation verstehen
+   
+   **Aufgabe 2: Zwei-Stein-Gruppe schlagen**
+   - Zwei verbundene weiße Steine bei H2-H3 (2 Freiheiten)
+   - Ziel: Blockiere beide Freiheiten
+   - Lernziel: Verbundene Steine müssen gemeinsam geschlagen werden
+   
+   **Aufgabe 3: Drei-Stein-Gruppe schlagen**
+   - Drei verbundene weiße Steine bei B8-C8-B9 (3 Freiheiten)
+   - Ziel: Blockiere alle 3 Freiheiten
+   - Lernziel: Größere Gruppen brauchen mehr Züge
+   
+   **Aufgabe 4: L-förmige Gruppe schlagen**
+   - L-förmige weiße Gruppe bei G7-H7-I7-G8 (4 Freiheiten)
+   - Ziel: Blockiere alle 4 Freiheiten
+   - Lernziel: Unregelmäßige Formen haben mehr Freiheiten
+   
+   **Aufgabe 5: Größere Gruppe schlagen**
+   - 2×2 weiße Gruppe bei E5-F5-E6-F6 (5 Freiheiten)
+   - Ziel: Blockiere alle 5 Freiheiten
+   - Lernziel: Kompakte Gruppen haben viele Freiheiten
+
+2. **Interaktive Elemente**:
+   - Vorkonfigurierte weiße Steine für jede Aufgabe
+   - Nur schwarze Steine können gesetzt werden
+   - Automatische Erkennung, wenn Gruppe geschlagen wurde
+   - Erfolgsmeldung bei jeder abgeschlossenen Aufgabe
+   - Fortschrittsanzeige: "Aufgabe X von 5"
+
+3. **Visuelles Feedback**:
+   - Gefangene Steine verschwinden mit Fade-Animation
+   - Zähler zeigt: "Gefangen: X Steine"
+   - Text: "X Freiheit(en) zu entfernen" für aktuelle Aufgabe
+
+4. **Abschluss**:
+   - Alle Aufgaben abgeschlossen → Erfolgsmeldung
+   - Zusammenfassung: "Du kannst jetzt:"
+     - Verwundbare Gruppen identifizieren
+     - Freiheiten genau zählen
+     - Schlagsequenzen ausführen
+   - Link zur nächsten Lektion
+
+### Technische Umsetzung
+- Vorkonfigurierte Board-States für jede Aufgabe
+- Task-Tracking-System (1-5)
+- Automatische Erkennung geschlagener Gruppen
+- Capture-Detection über Engine
+- Progress-Tracking
+- Success-Messages
+
+---
+
+## LEKTION 4: KO-REGEL (ko)
+
+### Inhaltliche Ziele
+- Verstehen, was "Ko" ist (endlose Rückeroberungsschleife)
+- Verstehen, warum Ko verboten ist
+- Verstehen, wie man auf Ko reagiert (Ko-Drohung spielen)
+- Verstehen, dass man nach einer Ko-Drohung zurückkehren kann
+
+### Taktische Ziele
+- Ko-Situationen erkennen können
+- Ko-Drohungen spielen können
+- Verstehen, wann man Ko kämpft und wann nicht
+
+### Methodischer Aufbau
+1. **Ko-Situation aufbauen**:
+   - Vorkonfigurierte Position mit Ko-Potenzial
+   - Beispiel: Schwarz schlägt weißen Stein → Ko entsteht
+2. **Ko-Verbot demonstrieren**:
+   - Versuch, sofort zurückzuschlagen → Fehlermeldung
+   - Erklärung: "Ko-Regel: Du kannst nicht die vorherige Position wiederherstellen"
+3. **Ko-Drohung erklären**:
+   - Zeige, dass man eine Drohung anderswo spielen muss
+   - Wenn Gegner auf Drohung antwortet → kann man zurückkehren
+   - Wenn Gegner nicht antwortet → kann man Drohung ausführen
+4. **Interaktive Übung**:
+   - Spieler muss Ko-Drohung spielen
+   - System erkennt Ko-Drohung
+   - Spieler kann nach Antwort zurückkehren
+
+### Technische Umsetzung
+- Ko-Erkennung über `previousBoard` Vergleich
+- Ko-Drohung-Detection
+- Interaktive Ko-Kämpfe
+- Visuelle Hervorhebung von Ko-Situationen
+
+---
+
+## LEKTION 5: AUGEN & LEBEN (eyes)
+
+### Inhaltliche Ziele
+- Verstehen, was ein "Auge" ist (leerer Punkt, vollständig umgeben)
+- Verstehen, dass Selbstschlagen illegal ist
+- Verstehen, dass Selbstschlagen legal wird, wenn man auch Gegner schlägt
+- Verstehen, dass zwei Augen eine Gruppe unschlagbar machen
+- Verstehen, dass Gruppen mit zwei Augen "lebendig" sind
+
+### Taktische Ziele
+- Augen erkennen können
+- Verstehen, wann Gruppen lebendig sind
+- Verstehen, wann Gruppen tot sind
+- Verstehen, wie man zwei Augen macht
+
+### Methodischer Aufbau
+
+#### Lektion 1: Selbstschlagen ist illegal
+1. **Vorkonfigurierte Position**:
+   - Schwarze Gruppe vollständig von weißen Steinen umgeben
+   - Keine Freiheiten für schwarze Gruppe
+2. **Interaktive Übung**:
+   - Versuch, schwarzen Stein innerhalb der Gruppe zu setzen
+   - Fehlermeldung: "Selbstschlagen ist illegal!"
+   - Erklärung: "Du kannst deine eigenen Steine nicht schlagen"
+3. **Lernziel**: Verstehen, dass Selbstmord-Züge verboten sind
+
+#### Lektion 2: Selbstschlagen mit Ausnahme
+1. **Vorkonfigurierte Position**:
+   - Weiße Gruppe in der Mitte
+   - Schwarze Gruppe umgibt weiße Gruppe
+   - Beide Gruppen haben keine Freiheiten mehr
+2. **Interaktive Übung**:
+   - Versuch, schwarzen Stein innerhalb der weißen Gruppe zu setzen
+   - Erfolg: Beide Gruppen werden geschlagen
+   - Erklärung: "Selbstschlagen wird legal, wenn du auch Gegner schlägst"
+3. **Lernziel**: Verstehen der Ausnahme-Regel
+
+#### Lektion 3: Zwei Augen für Leben
+1. **Vorkonfigurierte Position**:
+   - Weiße Gruppe mit zwei Augen
+   - Vollständig von schwarzen Steinen umgeben
+2. **Interaktive Übung**:
+   - Versuch, weiße Gruppe zu schlagen
+   - Unmöglich! → Erklärung: "Zwei Augen machen eine Gruppe unschlagbar"
+   - Visuelle Hervorhebung der beiden Augen
+3. **Lernziel**: Verstehen, dass zwei Augen Leben bedeuten
+
+### Technische Umsetzung
+- Vorkonfigurierte Board-States für jede Lektion
+- Self-Capture-Detection
+- Eye-Detection-Algorithmus
+- Two-Eyes-Verification
+- Interaktive Fehlermeldungen und Erfolgsmeldungen
+
+---
+
+## LEKTION 6: GUTE FORM VS. SCHLECHTE FORM (shapes)
+
+### Inhaltliche Ziele
+- Verstehen, was "gute Form" bedeutet (effiziente Steine-Nutzung)
+- Verstehen, was "schlechte Form" bedeutet (ineffiziente Steine-Nutzung)
+- Kennenlernen wichtiger Formen-Patterns
+- Verstehen, wann man welche Form verwendet
+
+### Taktische Ziele
+- Gute Formen erkennen und anwenden können
+- Schlechte Formen vermeiden können
+- Verstehen, warum bestimmte Formen gut/schlecht sind
+- Lokale Effizienz verstehen
+
+### Methodischer Aufbau
+1. **9 verschiedene Formen** (jeweils mit interaktivem Beispiel):
+
+   **GUTE FORMEN:**
+   
+   **Bambusgelenk (Bamboo Joint)**
+   - Beschreibung: Zwei Paare von Steinen mit zwei Feldern Abstand
+   - Warum gut: Sehr schwer zu schneiden, solide Verbindung
+   - Beispiel: D4-D5, dann F4-F5 (zwei Felder Abstand)
+   - Interaktiv: Spieler kann Form auf Brett nachbauen
+   
+   **Tigermaul (Tiger's Mouth)**
+   - Beschreibung: Keilform, die einen Schnitt verteidigt
+   - Warum gut: Hält Schnittpunkte sicher
+   - Beispiel: Dreieck mit E4, D5, E6
+   - Interaktiv: Spieler kann Form nachbauen
+   
+   **Keima (Rösselsprung)**
+   - Beschreibung: Zwei-Felder diagonaler Sprung
+   - Warum gut: Schnelle Erweiterung mit angemessener Stabilität
+   - Beispiel: Von D4 zu E6
+   - Interaktiv: Spieler kann Sprung nachvollziehen
+   
+   **Einzelner Sprung (Single Jump)**
+   - Beschreibung: Einräumige diagonale Erweiterung
+   - Warum gut: Schnell und flexibel
+   - Beispiel: Von E4 zu E6
+   - Interaktiv: Spieler kann Sprung nachvollziehen
+   
+   **Ponuki**
+   - Beschreibung: Formation nach dem Schlagen eines Steins
+   - Warum gut: Strategisches Opfer, schafft starken Einfluss
+   - Beispiel: E4, F5, E6, D5 - Formation nach Schlagen
+   - Interaktiv: Spieler kann Formation nachbauen
+   
+   **Gute Kombination**
+   - Beschreibung: Drei Steine in flexibler Formation
+   - Warum gut: Balanciert Geschwindigkeit, Sicherheit und Einfluss
+   - Beispiel: D4, E6, F4
+   - Interaktiv: Spieler kann Kombination nachbauen
+
+   **SCHLECHTE FORMEN:**
+   
+   **Leeres Dreieck (Empty Triangle)**
+   - Beschreibung: Drei Steine bilden gefülltes Dreieck
+   - Warum schlecht: Weniger Freiheiten für die Investition, langsam
+   - Beispiel: D4, E4, D5 in Dreieck
+   - Interaktiv: Spieler sieht, warum es schlecht ist
+   
+   **Überkonzentrierte Masse**
+   - Beschreibung: Zu viele Steine in einem Bereich
+   - Warum schlecht: Ineffiziente Nutzung, verschwendet Potential
+   - Beispiel: Viele Steine in einem kleinen Bereich
+   - Interaktiv: Spieler sieht Ineffizienz
+   
+   **Überkonzentrierte Linien**
+   - Beschreibung: Zu viele Steine auf dritter Linie
+   - Warum schlecht: Ineffizient, lädt Gegner ein, breitere Seite zu nehmen
+   - Beispiel: Alle Steine auf dritter Linie
+   - Interaktiv: Spieler sieht Problem
+
+2. **Interaktive Elemente**:
+   - Für jede Form: Vorschau auf Brett
+   - Spieler kann Form nachbauen
+   - Vergleich: Gute vs. schlechte Formen
+   - Freiheiten-Vergleich zeigt Effizienz
+
+3. **Visuelles Feedback**:
+   - Gute Formen: Grüne Hervorhebung
+   - Schlechte Formen: Rote Hervorhebung
+   - Freiheiten-Anzeige für Vergleich
+
+### Technische Umsetzung
+- Shape-Pattern-Definitionen
+- Interaktive Board-States für jede Form
+- Liberty-Count-Vergleich
+- Visuelle Hervorhebung von Formen
+- Vergleichs-Tool für gute/schlechte Formen
+
+---
+
+## LEKTION 7: ATARI GO (atari)
+
+### Inhaltliche Ziele
+- Vereinfachte Go-Variante kennenlernen
+- Atari-Situationen verstehen (Gruppe mit 1 Freiheit)
+- Schnelles Spiel für Anfänger
+
+### Taktische Ziele
+- Atari erkennen können
+- Schnelle Entscheidungen treffen
+- Vereinfachte Taktik anwenden
+
+### Methodischer Aufbau
+1. **Vereinfachte Regeln**:
+   - Nur Atari-Situationen (Gruppe mit 1 Freiheit)
+   - Automatischer Bot-Gegner
+   - Schnellere Spiele
+2. **Interaktives Spiel**:
+   - Spieler gegen Bot
+   - Bot spielt automatisch
+   - Atari-Hervorhebung
+3. **Adaptive Schwierigkeit**:
+   - Bot passt sich Spielstärke an
+   - Progressive Herausforderung
+
+### Technische Umsetzung
+- Atari-spezifische Engine
+- Bot-Opponent mit verschiedenen Schwierigkeitsgraden
+- Adaptive Learning-System
+- Atari-Detection-Algorithmus
+
+---
+
+## LEKTION 8: PRAXISSPIEL (practice)
+
+### Inhaltliche Ziele
+- Vollständiges Go-Spiel spielen
+- Alle gelernten Konzepte anwenden
+- Spielende und Zählen üben
+
+### Taktische Ziele
+- Strategisches Denken anwenden
+- Taktische Sequenzen planen
+- Gebiet vs. Einfluss abwägen
+
+### Methodischer Aufbau
+1. **Vollständiges 9×9 Spiel**:
+   - Alle Regeln aktiv
+   - Zwei Spieler (oder gegen Bot)
+   - Passen-Funktion
+   - Spielende-Erkennung
+2. **Spielende-Funktionen**:
+   - Passen-Button
+   - Automatische Erkennung wenn beide passen
+   - Tote Steine markieren
+   - Gebiet zählen
+   - Finale Punktzahl berechnen
+3. **Hilfe-Funktionen**:
+   - Legale Züge anzeigen
+   - Freiheiten anzeigen
+   - Atari-Warnungen
+
+### Technische Umsetzung
+- Vollständige Engine-Integration
+- Passen-Funktionalität
+- Game-End-Detection
+- Scoring-System
+- Help-Features
+
+---
+
+## METHODISCHE PRINZIPIEN FÜR ALLE LEKTIONEN
+
+### 1. Visuelles Lernen
+- **Farbcodierung**:
+  - Freiheiten: Rot
+  - Gebiet: Grau/Weiß
+  - Tote Steine: Roter Kreis
+  - Letzter Zug: Kleiner Punkt im Stein
+- **Animationen**:
+  - Stein-Platzierung: Scale-in (120ms)
+  - Freiheiten: Fade-in/out (4s total)
+  - Gefangene Steine: Fade-out (200ms)
+
+### 2. Sofortiges Feedback
+- **Bei jedem Zug**:
+  - Visuelles Feedback (Stein erscheint)
+  - Freiheiten werden hervorgehoben
+  - Fehlermeldungen bei illegalen Zügen
+  - Erfolgsmeldungen bei korrekten Zügen
+
+### 3. Progressive Schwierigkeit
+- **Innerhalb jeder Lektion**:
+  - Beginne einfach
+  - Steigere Komplexität
+  - Führe zu komplexeren Konzepten
+- **Zwischen Lektionen**:
+  - Jede Lektion baut auf vorheriger auf
+  - Neue Konzepte werden schrittweise eingeführt
+
+### 4. Interaktive Übungen
+- **Hands-on Learning**:
+  - Spieler muss aktiv handeln
+  - Nicht nur zuschauen, sondern machen
+  - Fehler machen ist erlaubt (Lernchance)
+
+### 5. Kontextuelle Erklärungen
+- **Warum ist das wichtig?**:
+  - Jede Lektion erklärt "Warum das wichtig ist"
+  - Verbindung zu größeren Konzepten
+  - Praktische Anwendung zeigen
+
+---
+
+## TECHNISCHE ANFORDERUNGEN FÜR LEKTIONEN
+
+### Board-Interaktion
+- **Click-Handling**:
+  - Präzise Koordinaten-Erkennung
+  - Hover-Vorschau
+  - Click auf Schnittpunkte
+- **State Management**:
+  - Board-State (9×9 Array)
+  - Spieler-Turn (Schwarz/Weiß)
+  - Move-History
+  - Highlight-States
+
+### Engine-Integration
+- **Für jede Lektion**:
+  - `isLegalMove()` - Validierung
+  - `placeStone()` - Zug ausführen
+  - `getLiberties()` - Freiheiten berechnen
+  - `getGroup()` - Gruppen finden
+  - `captureGroup()` - Gruppen schlagen
+
+### Visualisierung
+- **SVG-Rendering**:
+  - Pixel-perfekte Darstellung
+  - Koordinaten-Labels (A-I, 1-9)
+  - Hover-Ghost-Stones
+  - Liberty-Highlights
+  - Territory-Dots
+  - Dead-Stone-Markers
+
+### Feedback-System
+- **Nach jedem Zug**:
+  - Automatische Liberty-Highlighting
+  - Move-History-Update
+  - Success/Error-Messages
+  - Progress-Updates
+
+---
+
+## PÄDAGOGISCHE CHECKLISTE FÜR JEDE LEKTION
+
+✅ **Klare Lernziele** definiert
+✅ **Progressive Schwierigkeit** implementiert
+✅ **Interaktive Übungen** vorhanden
+✅ **Visuelles Feedback** bei jedem Schritt
+✅ **Kontextuelle Erklärungen** ("Warum wichtig?")
+✅ **Sofortige Korrektur** bei Fehlern
+✅ **Zusammenfassung** am Ende
+✅ **Übergang zur nächsten Lektion** klar
+
+---
+
+## SPEZIELLE GO-KONZEPTE NACH LEKTION
+
+### Lektion 0 (Intro)
+- Grundregeln
+- Spielziel
+- Brett-Layout
+
+### Lektion 1 (Counting)
+- Gebiet
+- Gefangene Steine
+- Komi
+- Tote Steine
+- Punktzahl-Berechnung
+
+### Lektion 2 (Rules)
+- Schnittpunkte
+- Freiheiten
+- Verbundene Steine
+- Gruppen
+
+### Lektion 3 (Capture)
+- Atari
+- Schlagen
+- Freiheiten blockieren
+- Schlagsequenzen
+
+### Lektion 4 (Ko)
+- Ko-Situation
+- Ko-Regel
+- Ko-Drohung
+- Ko-Kampf
+
+### Lektion 5 (Eyes)
+- Augen
+- Selbstschlagen
+- Zwei Augen
+- Leben/Tod
+
+### Lektion 6 (Shapes)
+- Gute Formen
+- Schlechte Formen
+- Lokale Effizienz
+- Form-Patterns
+
+### Lektion 7 (Atari Go)
+- Vereinfachte Regeln
+- Schnelles Spiel
+- Bot-Opponent
+
+### Lektion 8 (Practice)
+- Vollständiges Spiel
+- Alle Konzepte kombinieren
+- Strategie anwenden
+
+---
+
+## ABSCHLUSS
+
+Dieser Prompt beschreibt den vollständigen inhaltlichen, taktischen, methodischen und technischen Aufbau der Go-Lektionen. Jede Lektion ist darauf ausgelegt, Anfängern die Grundlagen des Go-Spiels systematisch und interaktiv beizubringen, mit Fokus auf praktisches Lernen durch Handeln und sofortiges visuelles Feedback.
+
+Die Progression folgt dem Prinzip "Vom Einfachen zum Komplexen" und baut schrittweise aufeinander auf, sodass Spieler nach Abschluss aller Lektionen in der Lage sind, ein vollständiges Go-Spiel zu spielen und zu verstehen.
+
+
+
+
+

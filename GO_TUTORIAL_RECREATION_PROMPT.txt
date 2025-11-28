@@ -1,0 +1,674 @@
+# COMPREHENSIVE PROMPT: Recreate Go Tutorial Application with TCI Branding
+
+## PROJECT OVERVIEW
+
+Create a complete, production-ready interactive Go (Baduk) tutorial web application using Next.js 14, React 18, TypeScript, and Tailwind CSS. The application teaches Go on a 9×9 board with TCI (The Corporate Intelligence) branding, featuring German as the default language with English support.
+
+---
+
+## TECHNICAL STACK & CONFIGURATION
+
+### Core Technologies
+- Framework: Next.js 14.0.4 with App Router (`app/` directory structure)
+- Language: TypeScript 5.3.3 with strict mode enabled
+- UI Library: React 18.2.0
+- Styling: Tailwind CSS 3.4.0 with custom TCI theme
+- Testing: Vitest 1.1.0 with jsdom environment
+- Build Tools: PostCSS with Autoprefixer
+
+### Package.json Configuration
+```json
+{
+  "name": "go-tutorial-tci",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "next": "14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "vitest": "^1.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "jsdom": "^23.0.1"
+  }
+}
+```
+
+### TypeScript Configuration (tsconfig.json)
+- Target: ES5
+- Module: ESNext
+- JSX: preserve
+- Strict mode: enabled
+- Path aliases: `@/*` maps to `./src/*`
+- Base URL: `.`
+
+### Next.js Configuration (next.config.js)
+- Minimal config (no experimental flags needed for Next.js 14)
+
+### Tailwind Configuration
+- Custom colors: `tci-green`, `tci-dark`, `tci-light`, `tci-board`
+- Content paths: `./src/pages/**/*`, `./src/components/**/*`, `./src/app/**/*`
+
+### PostCSS Configuration
+- Plugins: `tailwindcss`, `autoprefixer`
+
+---
+
+## PROJECT STRUCTURE
+
+```
+go-tutorial-tci/
+├── public/
+│   └── img/
+│       ├── tci-logo.png
+│       ├── tci-photo.jpg
+│       └── ChatGPT Image 26. Sept. 2025, 12_53_26.png
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx (Root layout with Header/Footer)
+│   │   ├── page.tsx (Homepage)
+│   │   ├── globals.css (Global styles + TCI theme)
+│   │   ├── intro/
+│   │   │   └── page.tsx (Introduction page)
+│   │   ├── counting/
+│   │   │   └── page.tsx (Territory counting lesson)
+│   │   ├── rules/
+│   │   │   ├── page.tsx (Rules & liberties lesson)
+│   │   │   └── useRulesLibertyHighlight.ts
+│   │   ├── capture/
+│   │   │   └── page.tsx (Capture mechanics lesson)
+│   │   ├── ko/
+│   │   │   └── page.tsx (Ko rule lesson)
+│   │   ├── eyes/
+│   │   │   └── page.tsx (Eyes & life lesson)
+│   │   ├── shapes/
+│   │   │   └── page.tsx (Shape patterns lesson)
+│   │   ├── atari/
+│   │   │   └── page.tsx (Atari Go lesson)
+│   │   └── practice/
+│   │       └── page.tsx (Practice game)
+│   ├── components/
+│   │   ├── BoardSvg.tsx (Main SVG board component)
+│   │   ├── Header.tsx (Navigation header)
+│   │   ├── Footer.tsx (Footer with TCI branding)
+│   │   └── AtariBoard.tsx (Specialized board for Atari)
+│   ├── lib/
+│   │   ├── engine.ts (Complete Go rules engine)
+│   │   ├── atariEngine.ts (Atari-specific engine)
+│   │   ├── atariState.ts (Atari state management)
+│   │   ├── atariBot.ts (Atari bot opponent)
+│   │   └── adaptiveLearning.ts (Adaptive learning system)
+│   ├── content/
+│   │   └── strings.ts (All translations & lesson content)
+│   ├── contexts/
+│   │   └── LanguageContext.tsx (Language switching)
+│   ├── brand/
+│   │   └── brand.ts (TCI color tokens)
+│   └── test/
+│       └── setup.ts (Test configuration)
+├── package.json
+├── tsconfig.json
+├── tailwind.config.js
+├── postcss.config.js
+├── vitest.config.ts
+└── next.config.js
+```
+
+---
+
+## TCI BRANDING SYSTEM
+
+### Color Palette (src/brand/brand.ts)
+```typescript
+export const TCI = {
+  green: "#7CC04B",      // Primary brand color
+  dark: "#233238",        // Dark text and accents
+  light: "#F4F7F6",       // Light background
+  white: "#FFFFFF",       // Pure white
+  boardWood: "#8B4513",   // Dark wood board color
+  boardWoodLight: "#A0522D",
+  boardWoodDark: "#654321"
+} as const;
+```
+
+### CSS Variables (src/app/globals.css)
+```css
+:root {
+  --tci-green: #7CC04B;
+  --tci-dark: #233238;
+  --tci-light: #F4F7F6;
+  --tci-board: #8B4513;
+  --tci-board-light: #A0522D;
+  --tci-board-dark: #654321;
+}
+```
+
+### TCI Brand Components (CSS Classes)
+- `.tci-button-primary` - Primary green button
+- `.tci-button-secondary` - Dark secondary button
+- `.tci-card` - Card component with shadow
+- `.tci-header` - Header styling
+- `.tci-progress-track` / `.tci-progress-fill` - Progress bars
+- `.aurora-header` - Animated gradient header
+- `.aurora-button` - Glassmorphism buttons
+- `.language-switcher` - Language toggle button
+- `.tci-logo-container` - Logo container with float animation
+
+### Logo Assets
+- `/public/img/tci-logo.png` - Main TCI logo (140×140px)
+- `/public/img/tci-photo.jpg` - TCI team photo (200×120px)
+- `/public/img/ChatGPT Image 26. Sept. 2025, 12_53_26.png` - Hero image (500×375px)
+
+---
+
+## LANGUAGE SYSTEM
+
+### Language Context (src/contexts/LanguageContext.tsx)
+- Default language: German (`'de'`)
+- Supported languages: `'en'` | `'de'`
+- Persists language preference in localStorage
+- Provides `useLanguage()` hook with `language`, `setLanguage()`, and `t()` function
+
+### Translation Structure (src/content/strings.ts)
+- `LESSONS_EN` / `LESSONS_DE` - Lesson content objects
+- `SHAPE_LESSONS_EN` / `SHAPE_LESSONS_DE` - Shape pattern lessons
+- `UI_TRANSLATIONS` - Complete UI text translations
+- Helper functions: `getLessons()`, `getShapeLessons()`, `getUITranslations()`
+- String interpolation support: `{{param}}` syntax
+
+### Key Translation Keys
+- Navigation: `goTutorial`, `learningFlow`, `introduction`, `counting`, `rules`, `capture`, `eyes`, `shapes`, `atariGo`
+- UI Elements: `startLearning`, `learnMore`, `whyThisMatters`, `masterTheGame`, `learnGoWith`
+- Lesson-specific translations for each page
+
+---
+
+## GO GAME ENGINE (src/lib/engine.ts)
+
+### Core Types
+```typescript
+export type Point = { x: number; y: number };
+export type Color = "B" | "W";
+export type Stone = { x: number; y: number; color: Color };
+
+export interface GameState {
+  board: (Color | null)[][];  // 9×9 board
+  toPlay: Color;               // Current player
+  lastMove?: Point;            // Last move coordinates
+  previousBoard?: string;      // For ko rule detection
+  captured: { B: number; W: number }; // Captured stones count
+}
+```
+
+### Core Functions
+1. `createInitialState()` - Creates empty 9×9 board, Black to play
+2. `toStoneArray(board)` - Converts board array to stone array for rendering
+3. `getLiberties(board, x, y)` - Returns all liberty points for a group
+4. `getGroup(board, x, y)` - Returns all connected stones of same color
+5. `captureGroup(board, group)` - Removes captured group from board
+6. `isLegalMove(state, point, color)` - Validates move legality:
+   - Checks if point is empty
+   - Prevents suicide (self-capture)
+   - Enforces ko rule
+   - Allows capture moves
+7. `placeStone(state, point, color)` - Executes legal move:
+   - Places stone
+   - Captures enemy groups with no liberties
+   - Updates captured counts
+   - Switches player
+   - Stores previous board for ko
+8. `explainMove(state, point, color)` - Returns human-readable move explanation
+
+### Go Rules Implementation
+- Suicide Prevention: Move is illegal if it creates a group with no liberties (unless it captures)
+- Ko Rule: Prevents recreating the previous board position
+- Capture: Automatically removes enemy groups with zero liberties
+- Liberty Calculation: Uses flood-fill algorithm to find all connected liberties
+
+---
+
+## BOARD COMPONENT (src/components/BoardSvg.tsx)
+
+### Component Props
+```typescript
+type Props = {
+  size?: number;                    // Board size in pixels (default: 580)
+  stones: Array<{x, y, color}>;     // Array of placed stones
+  lastMove?: {x, y};                // Last move highlight
+  hover?: {x, y, color} | null;    // Hover preview stone
+  onPlace?: (x, y) => void;         // Click handler
+  onMouseMove?: (x, y) => void;     // Mouse move handler
+  onMouseLeave?: () => void;        // Mouse leave handler
+  onStoneClick?: (x, y) => void;   // Stone click (for dead stone marking)
+  showCoords?: boolean;             // Show coordinate labels
+  liberties?: Array<{x, y}>;        // Liberty points to highlight
+  showLiberties?: boolean;          // Enable liberty highlighting
+  blackTerritory?: Array<{x, y}>;   // Black territory points
+  whiteTerritory?: Array<{x, y}>;   // White territory points
+  showBlackTerritory?: boolean;     // Show black territory
+  showWhiteTerritory?: boolean;     // Show white territory
+  deadStones?: Array<{x, y}>;       // Dead stones to mark
+  showDeadStones?: boolean;          // Enable dead stone marking
+};
+```
+
+### Board Features
+- SVG-based rendering with pixel-perfect alignment
+- 9×9 grid with dark wood background (`var(--tci-board)`)
+- Coordinate labels: A-I (columns) top/bottom, 1-9 (rows) left/right
+- Hover preview: Semi-transparent ghost stone (40% opacity)
+- Stone animations: Scale-in animation (120ms) on placement
+- Last move indicator: Small circle in center of last stone
+- Liberty highlighting: Red circles with fade animation (4s duration)
+- Territory highlighting: Small dots (30% radius) for black/white territory
+- Dead stone marking: Red circle overlay with 30% opacity
+- Click detection: Converts mouse coordinates to nearest intersection
+
+### Board Geometry
+- Padding: 40px on all sides
+- Inner size: `size - 80px`
+- Cell size: `inner / 8` (9 intersections = 8 gaps)
+- Stone radius: `cell * 0.42`
+- Coordinate label positioning: 15px offset from grid
+
+---
+
+## PAGE STRUCTURES
+
+### 1. Homepage (src/app/page.tsx)
+Layout:
+- Hero section with dark gradient background (`from-tci-dark to-gray-800`)
+- Large hero image (500×375px)
+- Title: "Learn Go with TCI"
+- Subtitle: "Master the ancient game of strategy on a 9×9 board"
+- CTA button: "Start Learning →" linking to `/intro`
+- Lessons grid: 3-column responsive grid (1 col mobile, 2 tablet, 3 desktop)
+- Each lesson card shows:
+  - Numbered badge (1-6)
+  - Lesson title
+  - "What" description
+  - "Why this matters" section with green accent
+  - "Learn More →" button
+- Learning Path section: Color-coded session cards (0-6) with gradient backgrounds
+
+Styling:
+- Premium UI with rounded-3xl cards
+- Shadow-2xl effects
+- Hover scale animations (scale-105)
+- Gradient backgrounds throughout
+
+### 2. Introduction Page (src/app/intro/page.tsx)
+Features:
+- Interactive 9×9 Go board (players can place stones)
+- Basic rules explanation cards
+- Komi explanation
+- Passing & game ending rules
+- Territory explanation
+- Board sizes information
+- Tips section
+
+Layout:
+- Hero header with dark gradient (`from-tci-dark to-gray-800`)
+- 12-column grid layout:
+  - Left side (7 cols): Basic rules cards
+  - Center (4 cols): Interactive board
+  - Right side (5 cols): Advanced concepts (Komi, Passing, Territory, Board Sizes, Tip)
+- Premium card design with icons and gradients
+- Reset board button
+
+State Management:
+- `stones` array for placed stones
+- `currentPlayer` ("B" | "W") for turn tracking
+- `hover` state for preview stone
+
+### 3. Counting Page (src/app/counting/page.tsx)
+Features:
+- Two lessons: Basic Counting & Advanced Counting
+- Pre-configured finished game board
+- Interactive territory highlighting (black/white)
+- Dead stone marking system
+- Komi adjustment dropdown (5.5, 6.5, 7.5)
+- Live score calculation
+- Territory visualization
+- Final score display
+
+Layout:
+- Hero header with lesson selector buttons
+- Progress bar showing step completion
+- 2-column layout: Board (7 cols) + Content (5 cols)
+- Interactive cards with gradient backgrounds
+- Territory toggle buttons
+- Dead stone marking toggle
+- Score display cards
+
+State Management:
+- `currentLesson` (1 or 2)
+- `step` for progress tracking
+- `showBlackTerritory` / `showWhiteTerritory` booleans
+- `blackTerritoryPoints` / `whiteTerritoryPoints` arrays
+- `deadStones` array
+- `showDeadStones` boolean
+- `komi` number (5.5, 6.5, or 7.5)
+- `blackScore` / `whiteScore` numbers
+- `showCounting` boolean
+
+Pre-configured Board State:
+- Specific stone layout matching lesson requirements
+- Black territory: 19 points (A1-I5 region)
+- White territory: 13 points (B7-I9 region)
+
+### 4. Rules Page (src/app/rules/page.tsx)
+Features:
+- Interactive liberty highlighting
+- Group liberty visualization (all liberties of connected group)
+- Move history with liberty analysis
+- Step-by-step tutorial
+- Only black stones can be placed (for learning focus)
+
+Liberty Highlighting:
+- Red circles at liberty intersections
+- 4-second fade animation (150ms fade-in, 3.5s visible, 300ms fade-out)
+- Shows ALL liberties of entire connected group when stones connect
+
+State Management:
+- `state` (GameState from engine)
+- `liberties` array for highlighting
+- `showLiberties` boolean
+- `moveHistory` array with liberty counts
+
+### 5. Capture Page (src/app/capture/page.tsx)
+Features:
+- 5 progressive capture tasks:
+  1. Single stone capture (B2)
+  2. Two-stone group (H2-H3)
+  3. Three-stone group (B8-C8-B9)
+  4. L-shaped group (G7-H7-I7-G8)
+  5. Large group (E5-F5-E6-F6)
+- Task completion tracking
+- Captured stones counter
+- Success messages
+- Next lesson link
+
+State Management:
+- `currentTask` (1-5)
+- `captured` count
+- `completedTasks` array
+- Pre-configured white stone positions for each task
+
+### 6. Eyes Page (src/app/eyes/page.tsx)
+Features:
+- 3 interactive lessons:
+  1. Self-Capture is Illegal
+  2. Capture with Self-Capture (Exception)
+  3. Two Eyes for Life
+- Pre-configured board states for each lesson
+- Interactive explanations
+- Success/failure messages
+- Lesson progression
+
+### 7. Shapes Page (src/app/shapes/page.tsx)
+Features:
+- 9 shape patterns:
+  - Bamboo Joint (Good)
+  - Tiger's Mouth (Good)
+  - Keima (Good)
+  - Single Jump (Good)
+  - Ponuki (Good)
+  - Good Combination (Good)
+  - Empty Triangle (Bad)
+  - Overconcentrated Bulk (Bad)
+  - Overconcentrated Lines (Bad)
+- Interactive board for each shape
+- Shape descriptions and examples
+- Good vs Bad categorization
+
+### 8. Atari Page (src/app/atari/page.tsx)
+Features:
+- Atari Go variant (simplified rules)
+- Bot opponent
+- Adaptive difficulty
+- Specialized AtariBoard component
+- Atari-specific engine logic
+
+### 9. Practice Page (src/app/practice/page.tsx)
+Features:
+- Full 9×9 game
+- Complete rules enforcement
+- Move validation
+- Game state tracking
+
+---
+
+## HEADER COMPONENT (src/components/Header.tsx)
+
+Features:
+- Aurora gradient header background (animated TCI green gradient)
+- Language switcher button (🇬🇧 ENG / 🇩🇪 DE) with glassmorphism
+- TCI logo (140×140px) with float animation and hover effects
+- Desktop navigation: Learning flow buttons (0-6) with badges
+- Mobile navigation: Compact numbered buttons
+- Active lesson highlighting (green glow)
+- Arrow connectors between lessons
+
+Navigation Links:
+- `/intro` - Introduction (0)
+- `/counting` - Counting (1)
+- `/rules` - Rules & Liberties (2)
+- `/capture` - Capturing (3)
+- `/eyes` - Eyes (4)
+- `/shapes` - Shapes (5)
+- `/atari` - Atari Go (6)
+
+Styling:
+- Glassmorphism buttons with backdrop blur
+- Aurora glow effects on hover
+- Badge numbers with active state
+- Responsive design (desktop/mobile)
+
+---
+
+## FOOTER COMPONENT (src/components/Footer.tsx)
+
+Features:
+- Dark background (`bg-tci-dark`)
+- 3-column grid layout:
+  1. About TCI section
+  2. Learn Go section
+  3. TCI team photo
+- Copyright notice
+- Responsive design
+
+---
+
+## ROOT LAYOUT (src/app/layout.tsx)
+
+Structure:
+- HTML lang attribute: `"de"` (German default)
+- Inter font from Google Fonts
+- LanguageProvider wrapper
+- Header component
+- Main content area (flex-1)
+- Footer component
+- Metadata: Title "Go Tutorial - TCI", Description
+
+---
+
+## STYLING SYSTEM
+
+### Global Styles (src/app/globals.css)
+- Tailwind base, components, utilities
+- CSS custom properties for TCI colors
+- Box-sizing reset
+- Body background: `var(--tci-light)`
+- Text color: `var(--tci-dark)`
+- Aurora animations (gradient shift, pulse)
+- Logo float animation
+- Reduced motion support for accessibility
+
+### Responsive Design
+- Mobile-first approach
+- Breakpoints: `md:` (768px), `lg:` (1024px), `xl:` (1280px)
+- Grid layouts: 1 col mobile → 2 cols tablet → 3 cols desktop
+- Mobile navigation: Compact button layout
+- Desktop navigation: Full learning flow display
+
+### Premium UI Elements
+- Rounded corners: `rounded-3xl` (24px) for cards
+- Shadows: `shadow-2xl` for depth
+- Gradients: `bg-gradient-to-br` throughout
+- Hover effects: `hover:scale-105`, `hover:shadow-xl`
+- Transitions: `transition-all duration-300`
+- Glassmorphism: Backdrop blur effects
+- Aurora effects: Animated gradients
+
+---
+
+## TESTING SETUP
+
+### Vitest Configuration (vitest.config.ts)
+- React plugin
+- jsdom environment
+- Path alias: `@` → `./src`
+- Setup file: `./src/test/setup.ts`
+
+### Test Files
+- `src/lib/__tests__/engine.test.ts` - Engine logic tests
+- `src/components/__tests__/BoardSvg.test.tsx` - Board component tests
+- `src/app/rules/__tests__/rules.liberties.test.tsx` - Rules page tests
+
+---
+
+## KEY IMPLEMENTATION DETAILS
+
+### Board Coordinate System
+- BoardSvg uses: Column A-I = x: 0-8, Row 1-9 = y: 0-8
+- Row 1 is at top (y: 0), Row 9 is at bottom (y: 8)
+- Engine uses: `board[y][x]` (row-major order)
+
+### Stone Placement Logic
+1. Check if intersection is empty
+2. Validate move legality (engine.isLegalMove)
+3. Place stone (engine.placeStone)
+4. Update state with captured stones
+5. Switch player
+6. Update last move highlight
+
+### Liberty Calculation
+- Uses flood-fill algorithm
+- Visits all connected stones of same color
+- Collects adjacent empty intersections
+- Returns array of liberty points
+
+### Territory Calculation
+- Empty intersections surrounded only by one color
+- Territory points stored as coordinate arrays
+- Visualized with small dots on board
+- Counted for scoring
+
+### Dead Stone Marking
+- Toggle mode: Click stones to mark/unmark as dead
+- Dead stones shown with red circle overlay
+- Opacity reduced to 30%
+- Counted as captures for opponent in scoring
+
+### Komi System
+- White receives compensation points (5.5, 6.5, or 7.5)
+- Added to white score in final calculation
+- Adjustable via dropdown
+
+---
+
+## ACCESSIBILITY FEATURES
+
+- ARIA labels on board (`aria-label="Go board 9 by 9"`)
+- Keyboard navigation support
+- Focus styles with ring indicators
+- Reduced motion support (`prefers-reduced-motion`)
+- High contrast stone colors
+- Semantic HTML structure
+
+---
+
+## PERFORMANCE OPTIMIZATIONS
+
+- Next.js Image component for optimized images
+- Client components marked with `'use client'`
+- Memoization where appropriate (`useMemo`)
+- Efficient state updates
+- SVG rendering for board (scalable, performant)
+
+---
+
+## DEPLOYMENT REQUIREMENTS
+
+- Node.js 18+ required
+- Build command: `npm run build`
+- Start command: `npm run start`
+- Environment: Production-ready Next.js application
+- Static assets in `/public` directory
+- No environment variables required
+
+---
+
+## CRITICAL IMPLEMENTATION NOTES
+
+1. Default Language: German (`'de'`) is the default throughout
+2. Board Size: Always 9×9 (hardcoded, not configurable)
+3. Color System: TCI green (#7CC04B) is primary brand color
+4. Responsive Design: Mobile-first, breakpoints at md/lg/xl
+5. Animation Timing: 300ms for UI transitions, 120ms for stone placement
+6. Coordinate System: Consistent row-major order (`board[y][x]`)
+7. State Management: React hooks (`useState`, `useMemo`) - no external state library
+8. File Structure: Next.js 14 App Router (not Pages Router)
+9. Type Safety: Full TypeScript with strict mode
+10. Styling: Tailwind CSS with custom TCI theme, no inline styles
+
+---
+
+## FINAL CHECKLIST
+
+✅ Next.js 14 with App Router
+✅ TypeScript with strict mode
+✅ Tailwind CSS with TCI theme
+✅ Complete Go rules engine
+✅ Interactive SVG board component
+✅ German/English language support
+✅ TCI branding throughout
+✅ 9 learning modules (intro, counting, rules, capture, ko, eyes, shapes, atari, practice)
+✅ Responsive design (mobile/tablet/desktop)
+✅ Premium UI with gradients and animations
+✅ Accessibility features
+✅ Testing setup with Vitest
+✅ All translations in strings.ts
+✅ Header with navigation and language switcher
+✅ Footer with TCI branding
+✅ Root layout with LanguageProvider
+
+---
+
+This prompt contains all necessary information to recreate the complete Go tutorial application. Follow the structure, styling, and functionality exactly as described to produce an identical application.
+
+
+
+
+
