@@ -40,7 +40,7 @@ export interface AtariBot {
 }
 
 export class AtariEngine {
-  private board: AtariBoard;
+  public board: AtariBoard;
   private config: AtariConfig;
   private moveHistory: AtariMove[] = [];
 
@@ -110,7 +110,7 @@ export class AtariEngine {
 
     // Check for captures
     const captures = this.checkCaptures(x, y, color);
-    
+
     // Remove captured stones
     captures.forEach(capture => {
       this.board.stones[capture.x][capture.y] = null;
@@ -203,8 +203,8 @@ export class AtariEngine {
       if (visited.has(key)) continue;
       visited.add(key);
 
-      if (this.isValidPosition(current.x, current.y) && 
-          this.board.stones[current.x][current.y] === color) {
+      if (this.isValidPosition(current.x, current.y) &&
+        this.board.stones[current.x][current.y] === color) {
         group.push(current);
 
         // Add adjacent stones to stack
@@ -258,9 +258,9 @@ export class AtariEngine {
         // Game continues until board is full or one player has significantly more captures
         if (this.isBoardFull()) {
           this.board.gameOver = true;
-          this.board.winner = this.board.captures.black > this.board.captures.white ? 'B' : 
-                             this.board.captures.white > this.board.captures.black ? 'W' : 
-                             undefined; // Tie
+          this.board.winner = this.board.captures.black > this.board.captures.white ? 'B' :
+            this.board.captures.white > this.board.captures.black ? 'W' :
+              undefined; // Tie
         }
         break;
 
@@ -330,7 +330,7 @@ export class AtariEngine {
     if (this.moveHistory.length === 0) return false;
 
     const lastMove = this.moveHistory.pop()!;
-    
+
     // Remove the placed stone
     this.board.stones[lastMove.x][lastMove.y] = null;
     this.board.lastMove = undefined;
@@ -339,7 +339,7 @@ export class AtariEngine {
     lastMove.captures.forEach(capture => {
       const originalColor = this.board.currentPlayer === 'B' ? 'W' : 'B';
       this.board.stones[capture.x][capture.y] = originalColor;
-      
+
       if (originalColor === 'B') {
         this.board.captures.white--;
       } else {
@@ -349,7 +349,7 @@ export class AtariEngine {
 
     // Switch player back
     this.board.currentPlayer = this.board.currentPlayer === 'B' ? 'W' : 'B';
-    
+
     // Reset game over state
     this.board.gameOver = false;
     this.board.winner = undefined;
@@ -419,7 +419,7 @@ export class BeginnerBot implements AtariBot {
     engine.board = { ...board };
 
     const availableMoves = engine.getAvailableMoves();
-    
+
     // Look for obvious captures
     for (const move of availableMoves) {
       const testMove = engine.makeMove(move.x, move.y, board.currentPlayer);
@@ -458,14 +458,14 @@ export class IntermediateBot implements AtariBot {
         engine.undo();
         return testMove;
       }
-      
+
       // Evaluate position
       const score = engine.evaluatePosition(board.currentPlayer);
       if (score > bestScore) {
         bestScore = score;
         bestMove = move;
       }
-      
+
       engine.undo();
     }
 
@@ -491,7 +491,7 @@ export class AdvancedBot implements AtariBot {
     // Mini-max with simple evaluation
     for (const move of availableMoves) {
       const testMove = engine.makeMove(move.x, move.y, board.currentPlayer);
-      
+
       // If this move captures stones, it's probably good
       if (testMove.captures.length > 0) {
         const score = testMove.captures.length * 100 + engine.evaluatePosition(board.currentPlayer);
@@ -507,7 +507,7 @@ export class AdvancedBot implements AtariBot {
           bestMove = move;
         }
       }
-      
+
       engine.undo();
     }
 

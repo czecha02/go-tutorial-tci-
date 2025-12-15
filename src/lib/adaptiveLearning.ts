@@ -136,24 +136,24 @@ export class AdaptiveLearningEngine {
   ): void {
     const key = `${userId}-${lessonId}`;
     const existing = this.metrics.get(key) || this.createNewMetrics(userId, lessonId);
-    
+
     existing.attempts++;
     if (success) {
       existing.successes++;
     } else {
       existing.failures++;
     }
-    
+
     existing.timeSpent += timeSpent;
     existing.hintsUsed += hintsUsed;
     existing.lastAttempt = new Date();
-    
+
     // Calculate mastery level
     existing.masteryLevel = this.calculateMasteryLevel(existing);
-    
+
     // Update weak/strong areas
     this.updateSkillAreas(existing, lessonId, success);
-    
+
     this.metrics.set(key, existing);
   }
 
@@ -163,7 +163,7 @@ export class AdaptiveLearningEngine {
   public getRecommendedDifficulty(userId: string): DifficultyLevel {
     const userMetrics = this.getUserMetrics(userId);
     const overallMastery = this.calculateOverallMastery(userMetrics);
-    
+
     // Find highest difficulty level user can access
     for (let i = this.difficultyLevels.length - 1; i >= 0; i--) {
       const level = this.difficultyLevels[i];
@@ -171,7 +171,7 @@ export class AdaptiveLearningEngine {
         return level;
       }
     }
-    
+
     return this.difficultyLevels[0]; // Default to beginner
   }
 
@@ -181,9 +181,9 @@ export class AdaptiveLearningEngine {
   public canAdvance(userId: string, lessonId: string): boolean {
     const key = `${userId}-${lessonId}`;
     const metrics = this.metrics.get(key);
-    
+
     if (!metrics) return false;
-    
+
     return metrics.masteryLevel >= this.adaptiveConfig.masteryThreshold;
   }
 
@@ -193,11 +193,11 @@ export class AdaptiveLearningEngine {
   public getPersonalizedHints(userId: string, lessonId: string): Hint[] {
     const key = `${userId}-${lessonId}`;
     const metrics = this.metrics.get(key);
-    
+
     if (!metrics) return [];
-    
+
     const hints: Hint[] = [];
-    
+
     // Analyze failure patterns
     if (metrics.failures > metrics.successes) {
       if (metrics.weakAreas.includes('capture')) {
@@ -208,7 +208,7 @@ export class AdaptiveLearningEngine {
           penalty: this.adaptiveConfig.hintPenalty
         });
       }
-      
+
       if (metrics.weakAreas.includes('territory')) {
         hints.push({
           id: 'territory-hint',
@@ -217,7 +217,7 @@ export class AdaptiveLearningEngine {
           penalty: this.adaptiveConfig.hintPenalty
         });
       }
-      
+
       if (metrics.weakAreas.includes('liberties')) {
         hints.push({
           id: 'liberty-hint',
@@ -227,7 +227,7 @@ export class AdaptiveLearningEngine {
         });
       }
     }
-    
+
     return hints;
   }
 
@@ -238,30 +238,30 @@ export class AdaptiveLearningEngine {
     const userMetrics = this.getUserMetrics(userId);
     const skillAssessment = this.skillAssessments.get(userId);
     const difficultyLevel = this.getRecommendedDifficulty(userId);
-    
+
     const lessons: string[] = [];
-    
+
     // Start with fundamentals
     lessons.push('basic-rules', 'liberty-counting');
-    
+
     // Add based on skill assessment
     if (skillAssessment) {
       if (skillAssessment.captureAbility < 60) {
         lessons.push('capture-basics', 'single-capture', 'group-capture');
       }
-      
+
       if (skillAssessment.territorialUnderstanding < 60) {
         lessons.push('territory-basics', 'territory-counting');
       }
-      
+
       if (skillAssessment.tacticalThinking < 60) {
         lessons.push('tactical-patterns', 'ladder-recognition');
       }
     }
-    
+
     // Add difficulty-appropriate lessons
     lessons.push(...difficultyLevel.unlocks);
-    
+
     return {
       id: `path-${userId}`,
       name: `Personalized Path for ${difficultyLevel.name}`,
@@ -284,16 +284,16 @@ export class AdaptiveLearningEngine {
       patternRecognition: 0,
       overallRating: 0
     };
-    
+
     // Analyze responses to calculate skill levels
     let totalQuestions = 0;
     let correctAnswers = 0;
-    
+
     responses.forEach((response, questionId) => {
       totalQuestions++;
       if (response.correct) {
         correctAnswers++;
-        
+
         // Weight by question type
         if (questionId.includes('capture')) {
           assessment.captureAbility += 20;
@@ -308,22 +308,22 @@ export class AdaptiveLearningEngine {
         }
       }
     });
-    
+
     // Normalize scores (0-100)
     Object.keys(assessment).forEach(key => {
       if (key !== 'overallRating') {
         assessment[key as keyof SkillAssessment] = Math.min(100, assessment[key as keyof SkillAssessment]);
       }
     });
-    
+
     assessment.overallRating = Math.round(
-      (assessment.captureAbility + 
-       assessment.territorialUnderstanding + 
-       assessment.tacticalThinking + 
-       assessment.strategicThinking + 
-       assessment.patternRecognition) / 5
+      (assessment.captureAbility +
+        assessment.territorialUnderstanding +
+        assessment.tacticalThinking +
+        assessment.strategicThinking +
+        assessment.patternRecognition) / 5
     );
-    
+
     this.skillAssessments.set(userId, assessment);
     return assessment;
   }
@@ -334,9 +334,9 @@ export class AdaptiveLearningEngine {
   public getSpacedRepetitionSchedule(userId: string, lessonId: string): Date[] {
     const key = `${userId}-${lessonId}`;
     const metrics = this.metrics.get(key);
-    
+
     if (!metrics) return [];
-    
+
     const intervals = [
       1 * 24 * 60 * 60 * 1000,    // 1 day
       3 * 24 * 60 * 60 * 1000,    // 3 days
@@ -344,15 +344,15 @@ export class AdaptiveLearningEngine {
       14 * 24 * 60 * 60 * 1000,   // 2 weeks
       30 * 24 * 60 * 60 * 1000    // 1 month
     ];
-    
+
     const schedule: Date[] = [];
     let nextDate = new Date();
-    
+
     intervals.forEach(interval => {
       nextDate = new Date(nextDate.getTime() + interval);
       schedule.push(nextDate);
     });
-    
+
     return schedule;
   }
 
@@ -363,7 +363,7 @@ export class AdaptiveLearningEngine {
     const userMetrics = this.getUserMetrics(userId);
     const skillAssessment = this.skillAssessments.get(userId);
     const difficultyLevel = this.getRecommendedDifficulty(userId);
-    
+
     return {
       userId,
       difficultyLevel,
@@ -396,17 +396,17 @@ export class AdaptiveLearningEngine {
 
   private calculateMasteryLevel(metrics: LearningMetrics): number {
     if (metrics.attempts === 0) return 0;
-    
+
     const successRate = metrics.successes / metrics.attempts;
     const timeBonus = Math.max(0, (300 - metrics.timeSpent) / 300) * this.adaptiveConfig.timeBonus;
     const hintPenalty = metrics.hintsUsed * this.adaptiveConfig.hintPenalty;
-    
+
     return Math.min(100, Math.max(0, (successRate * 100) + timeBonus - hintPenalty));
   }
 
   private updateSkillAreas(metrics: LearningMetrics, lessonId: string, success: boolean): void {
     const skillArea = this.mapLessonToSkill(lessonId);
-    
+
     if (success) {
       if (!metrics.strongAreas.includes(skillArea)) {
         metrics.strongAreas.push(skillArea);
@@ -441,20 +441,20 @@ export class AdaptiveLearningEngine {
 
   private calculateOverallMastery(metrics: LearningMetrics[]): number {
     if (metrics.length === 0) return 0;
-    
+
     const totalMastery = metrics.reduce((sum, m) => sum + m.masteryLevel, 0);
     return totalMastery / metrics.length;
   }
 
   private identifyWeakAreas(metrics: LearningMetrics[]): string[] {
     const areaCounts = new Map<string, number>();
-    
+
     metrics.forEach(m => {
       m.weakAreas.forEach(area => {
         areaCounts.set(area, (areaCounts.get(area) || 0) + 1);
       });
     });
-    
+
     return Array.from(areaCounts.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3)
@@ -463,13 +463,13 @@ export class AdaptiveLearningEngine {
 
   private identifyStrongAreas(metrics: LearningMetrics[]): string[] {
     const areaCounts = new Map<string, number>();
-    
+
     metrics.forEach(m => {
       m.strongAreas.forEach(area => {
         areaCounts.set(area, (areaCounts.get(area) || 0) + 1);
       });
     });
-    
+
     return Array.from(areaCounts.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3)
@@ -478,26 +478,26 @@ export class AdaptiveLearningEngine {
 
   private calculateLearningVelocity(metrics: LearningMetrics[]): number {
     if (metrics.length < 2) return 0;
-    
-    const sortedMetrics = metrics.sort((a, b) => 
+
+    const sortedMetrics = metrics.sort((a, b) =>
       a.lastAttempt.getTime() - b.lastAttempt.getTime()
     );
-    
+
     const firstMastery = sortedMetrics[0].masteryLevel;
     const lastMastery = sortedMetrics[sortedMetrics.length - 1].masteryLevel;
-    const timeDiff = sortedMetrics[sortedMetrics.length - 1].lastAttempt.getTime() - 
-                    sortedMetrics[0].lastAttempt.getTime();
-    
+    const timeDiff = sortedMetrics[sortedMetrics.length - 1].lastAttempt.getTime() -
+      sortedMetrics[0].lastAttempt.getTime();
+
     return (lastMastery - firstMastery) / (timeDiff / (24 * 60 * 60 * 1000)); // per day
   }
 
   private getRecommendedFocus(metrics: LearningMetrics[], skillAssessment?: SkillAssessment): string[] {
     const recommendations: string[] = [];
-    
+
     // Based on weak areas
     const weakAreas = this.identifyWeakAreas(metrics);
     recommendations.push(...weakAreas);
-    
+
     // Based on skill assessment
     if (skillAssessment) {
       if (skillAssessment.captureAbility < 70) recommendations.push('capture-practice');
@@ -506,7 +506,7 @@ export class AdaptiveLearningEngine {
       if (skillAssessment.strategicThinking < 70) recommendations.push('strategic-games');
       if (skillAssessment.patternRecognition < 70) recommendations.push('pattern-drills');
     }
-    
+
     return [...new Set(recommendations)]; // Remove duplicates
   }
 }
@@ -514,8 +514,7 @@ export class AdaptiveLearningEngine {
 // Export singleton instance
 export const adaptiveLearning = new AdaptiveLearningEngine();
 
-// Export types for use in other modules
-export type { LearningMetrics, DifficultyLevel, AdaptiveConfig, SkillAssessment, Hint, LearningPath };
+
 
 
 
