@@ -1,7 +1,7 @@
 
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import BoardSvg from '@/components/BoardSvg'
 import { createInitialState, placeStone, toStoneArray, GameState, Point } from '@/lib/engine'
 import { getBotMove } from '@/lib/bot'
@@ -29,26 +29,23 @@ export default function PlayBotPage() {
         }
     }, [gameState.toPlay, gameStatus, isBotThinking])
 
-    // Countdown and Move Execution Effect
-    useEffect(() => {
-        if (!isBotThinking || countdown <= 0) return
+    const handlePass = useCallback(() => {
+        const newPassCount = passCount + 1
+        setPassCount(newPassCount)
 
-        const timer = setInterval(() => {
-            setCountdown((prev) => {
-                if (prev <= 1) {
-                    clearInterval(timer)
-                    // Execute move when countdown hits 0 (or 1 -> 0 transition)
-                    executeBotMove()
-                    return 0
-                }
-                return prev - 1
-            })
-        }, 1000)
+        // Switch turn
+        setGameState(prev => ({
+            ...prev,
+            toPlay: prev.toPlay === 'B' ? 'W' : 'B',
+            lastMove: undefined // Clear last move marker on pass
+        }))
 
-        return () => clearInterval(timer)
-    }, [isBotThinking, countdown])
+        if (newPassCount >= 2) {
+            setGameStatus('finished')
+        }
+    }, [passCount])
 
-    const executeBotMove = () => {
+    const executeBotMove = useCallback(() => {
         try {
             const move = getBotMove(gameState, 'W')
 
@@ -66,7 +63,26 @@ export default function PlayBotPage() {
         }
 
         setIsBotThinking(false)
-    }
+    }, [gameState, handlePass])
+
+    // Countdown and Move Execution Effect
+    useEffect(() => {
+        if (!isBotThinking || countdown <= 0) return
+
+        const timer = setInterval(() => {
+            setCountdown((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timer)
+                    // Execute move when countdown hits 0 (or 1 -> 0 transition)
+                    executeBotMove()
+                    return 0
+                }
+                return prev - 1
+            })
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [isBotThinking, countdown, executeBotMove])
 
     const handlePlayerMove = (x: number, y: number) => {
         if (gameStatus !== 'playing' || gameState.toPlay !== 'B' || isBotThinking) return
@@ -77,22 +93,6 @@ export default function PlayBotPage() {
             setPassCount(0)
         } catch (e) {
             // Illegal move, ignore
-        }
-    }
-
-    const handlePass = () => {
-        const newPassCount = passCount + 1
-        setPassCount(newPassCount)
-
-        // Switch turn
-        setGameState(prev => ({
-            ...prev,
-            toPlay: prev.toPlay === 'B' ? 'W' : 'B',
-            lastMove: undefined // Clear last move marker on pass
-        }))
-
-        if (newPassCount >= 2) {
-            setGameStatus('finished')
         }
     }
 

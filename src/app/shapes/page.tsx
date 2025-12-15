@@ -89,8 +89,8 @@ export default function ShapesPage() {
           {LESSONS.shapes.title}
         </h1>
         <div className="tci-progress-track w-full max-w-md mx-auto">
-          <div 
-            className="tci-progress-fill" 
+          <div
+            className="tci-progress-fill"
             style={{ width: `${(completedShapes.size / 10) * 100}%` }}
           />
         </div>
@@ -113,7 +113,7 @@ export default function ShapesPage() {
               {SHAPE_LESSONS[currentShape].title}
             </h3>
             <p className="text-gray-700 mb-4">{SHAPE_LESSONS[currentShape].description}</p>
-            
+
             <div className="bg-tci-light p-4 rounded-lg mb-4">
               <h4 className="font-semibold text-tci-dark mb-2">Why this matters:</h4>
               <p className="text-gray-700">{SHAPE_LESSONS[currentShape].why}</p>
@@ -134,13 +134,12 @@ export default function ShapesPage() {
                 <button
                   key={key}
                   onClick={() => setCurrentShape(key as keyof typeof SHAPE_LESSONS)}
-                  className={`p-3 rounded-lg text-left transition-colors ${
-                    currentShape === key 
-                      ? 'bg-tci-green text-white' 
+                  className={`p-3 rounded-lg text-left transition-colors ${currentShape === key
+                      ? 'bg-tci-green text-white'
                       : isGoodShape(key)
                         ? 'bg-green-50 text-green-800 hover:bg-green-100'
                         : 'bg-red-50 text-red-800 hover:bg-red-100'
-                  }`}
+                    }`}
                 >
                   <div className="font-semibold text-sm">{lesson.title}</div>
                   <div className="text-xs opacity-80 mt-1">
@@ -179,7 +178,7 @@ export default function ShapesPage() {
                   Shape Master!
                 </h3>
                 <p className="text-gray-700 mb-4">
-                  You've learned the fundamentals of good and bad shape in Go.
+                  You&apos;ve learned the fundamentals of good and bad shape in Go.
                 </p>
               </div>
             </div>

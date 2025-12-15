@@ -4,6 +4,9 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { LanguageProvider } from '@/contexts/LanguageContext'
+import { ProgressProvider } from '@/contexts/ProgressContext'
+import ProgressTracker from '@/components/ProgressTracker'
+import OnboardingTour from '@/components/OnboardingTour'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,18 +24,23 @@ export default function RootLayout({
     <html lang="de">
       <body className={inter.className}>
         <LanguageProvider>
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <ProgressProvider>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <ProgressTracker />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+            <OnboardingTour />
+          </ProgressProvider>
         </LanguageProvider>
       </body>
     </html>
   )
 }
+
 
 
 

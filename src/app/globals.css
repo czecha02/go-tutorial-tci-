@@ -3,9 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --tci-green: #7CC04B; /* TODO replace with PDF hex */
-  --tci-dark: #233238; /* TODO replace with PDF hex */
-  --tci-light: #F4F7F6; /* TODO replace with PDF hex */
+  --tci-green: #7CC04B;
+  /* TODO replace with PDF hex */
+  --tci-dark: #233238;
+  /* TODO replace with PDF hex */
+  --tci-light: #F4F7F6;
+  /* TODO replace with PDF hex */
   --tci-board: #8B4513;
   --tci-board-light: #A0522D;
   --tci-board-dark: #654321;
@@ -41,15 +44,15 @@ a {
 
 /* TCI Brand Components */
 .tci-button-primary {
-  @apply bg-tci-green text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity;
+  @apply bg-tci-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors;
 }
 
 .tci-button-secondary {
-  @apply bg-tci-dark text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity;
+  @apply bg-tci-dark text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors;
 }
 
 .tci-progress-track {
-  @apply bg-tci-dark rounded-full h-2;
+  @apply bg-gray-300 rounded-full h-2;
 }
 
 .tci-progress-fill {
@@ -61,7 +64,7 @@ a {
 }
 
 .tci-card {
-  @apply bg-white rounded-lg shadow-lg p-6 border border-gray-200;
+  @apply bg-white rounded-lg border border-gray-200 p-6;
 }
 
 /* Language Switcher Button */
@@ -72,7 +75,7 @@ a {
   backdrop-filter: blur(12px);
   border: 2px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2),
-              0 0 30px rgba(255, 255, 255, 0.1);
+    0 0 30px rgba(255, 255, 255, 0.1);
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -81,8 +84,8 @@ a {
   transform: translateY(-2px) scale(1.05);
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.3),
-              0 0 40px rgba(255, 255, 255, 0.2),
-              0 0 50px rgba(124, 192, 75, 0.3);
+    0 0 40px rgba(255, 255, 255, 0.2),
+    0 0 50px rgba(124, 192, 75, 0.3);
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
@@ -105,72 +108,29 @@ a {
 
 /* Aurora Header with Subtle Gradient Background - TCI Green Theme */
 .aurora-header {
-  @apply relative text-white p-6 flex items-center justify-between overflow-hidden;
-  background: linear-gradient(135deg, #6fbd45 0%, #7CC04B 50%, #8bc34a 100%);
-  background-size: 200% 200%;
-  animation: aurora-gradient 20s ease infinite;
-}
-
-@keyframes aurora-gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.aurora-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(124, 192, 75, 0.15) 0%, transparent 50%, rgba(93, 179, 58, 0.15) 100%);
-  animation: aurora-shift 15s ease infinite;
-}
-
-@keyframes aurora-shift {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  @apply relative text-white p-4 sm:p-6 flex items-center justify-between overflow-hidden;
+  background: var(--tci-green);
+  border-bottom: 3px solid #6fbd45;
 }
 
 /* Glassmorphism Learning Flow Buttons */
 .aurora-button {
-  @apply relative px-6 py-3 rounded-2xl text-sm font-semibold flex items-center space-x-3 min-w-[140px] justify-center;
-  @apply transition-all duration-300 overflow-hidden;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  @apply relative px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 min-w-[120px] justify-center;
+  @apply transition-all duration-200 overflow-hidden;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .aurora-button:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 20px 0 rgba(31, 38, 135, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .aurora-button-active {
-  background: rgba(124, 192, 75, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 15px rgba(124, 192, 75, 0.3), 0 4px 16px 0 rgba(31, 38, 135, 0.2);
-}
-
-.aurora-button-active:hover {
-  background: rgba(124, 192, 75, 0.25);
-  box-shadow: 0 0 20px rgba(124, 192, 75, 0.4), 0 6px 20px 0 rgba(31, 38, 135, 0.3);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-weight: bold;
 }
 
 /* Subtle glow effect on hover */
@@ -215,9 +175,12 @@ a {
 }
 
 @keyframes aurora-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.6;
   }
+
   50% {
     opacity: 1;
   }
@@ -247,7 +210,7 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .aurora-header {
     animation: none;
     background: linear-gradient(135deg, #5db33a 0%, #7CC04B 50%, #a8d88e 100%);
@@ -256,47 +219,31 @@ a {
 
 /* TCI Logo Styling */
 .tci-logo-container {
-  @apply relative ml-6 p-3 rounded-3xl;
+  @apply relative ml-6 p-3 rounded-2xl;
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 
-              0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-              0 0 60px rgba(124, 192, 75, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  animation: logo-float 6s ease-in-out infinite;
 }
 
-@keyframes logo-float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
+
 
 .tci-logo-container:hover {
-  transform: scale(1.08) rotate(3deg) translateY(0);
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.25),
-              0 0 50px rgba(255, 255, 255, 0.3),
-              0 0 80px rgba(124, 192, 75, 0.4),
-              0 0 0 2px rgba(255, 255, 255, 0.3) inset;
-  animation: none;
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.35);
 }
 
 .tci-logo {
   @apply drop-shadow-2xl;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2)) 
-          drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
   transition: filter 0.3s ease;
 }
 
 .tci-logo-container:hover .tci-logo {
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.3)) 
-          drop-shadow(0 0 25px rgba(255, 255, 255, 0.6))
-          drop-shadow(0 0 40px rgba(124, 192, 75, 0.5));
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
 }
 
 /* Mobile logo adjustments */
@@ -314,4 +261,276 @@ a {
 .aurora-mobile-button:focus,
 .language-switcher:focus {
   @apply outline-none ring-2 ring-white ring-offset-2 ring-offset-transparent;
+}
+
+/* ============================================ */
+/* NEW UI IMPROVEMENTS - Progress Tracking     */
+/* ============================================ */
+
+/* Progress Tracker */
+.progress-tracker-container {
+  @apply sticky top-0 z-40 bg-white border-b-2 border-gray-200 shadow-sm;
+}
+
+.progress-tracker {
+  @apply max-w-7xl mx-auto px-4 py-4 flex items-center justify-between;
+}
+
+.progress-tracker-inner {
+  @apply flex items-center gap-2 flex-1 overflow-x-auto;
+  scrollbar-width: none;
+}
+
+.progress-tracker-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.progress-step {
+  @apply flex flex-col items-center gap-1 min-w-fit cursor-pointer transition-all duration-200;
+}
+
+.progress-step:hover {
+  @apply scale-110;
+}
+
+.progress-step-circle {
+  @apply w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center transition-all duration-200;
+}
+
+.progress-step.completed .progress-step-circle {
+  @apply bg-tci-green border-tci-green;
+}
+
+.progress-step.active .progress-step-circle {
+  @apply border-tci-green ring-2 ring-tci-green ring-offset-2;
+}
+
+.progress-step.current .progress-step-circle {
+  @apply border-blue-500;
+}
+
+.progress-check {
+  @apply text-white font-bold text-lg;
+}
+
+.progress-number {
+  @apply text-gray-600 font-semibold text-sm;
+}
+
+.progress-step.completed .progress-number {
+  @apply text-white;
+}
+
+.progress-step.active .progress-number {
+  @apply text-tci-green;
+}
+
+.progress-step-label {
+  @apply text-xs font-medium text-gray-600 hidden sm:block;
+}
+
+.progress-step.active .progress-step-label {
+  @apply text-tci-green font-semibold;
+}
+
+.progress-connector {
+  @apply w-6 sm:w-8 h-0.5 bg-gray-300 transition-all duration-200;
+}
+
+.progress-connector.completed {
+  @apply bg-tci-green;
+}
+
+.progress-percentage {
+  @apply ml-4 text-sm font-semibold text-gray-700 bg-gray-100 px-3 py-1 rounded-full;
+}
+
+/* Lesson Navigation */
+.lesson-navigation {
+  @apply fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 shadow-lg z-30;
+}
+
+.lesson-navigation-inner {
+  @apply max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4;
+}
+
+.lesson-nav-button {
+  @apply flex items-center gap-3 px-4 sm:px-6 py-3 rounded-xl font-semibold transition-all duration-200 min-h-[60px];
+}
+
+.lesson-nav-prev {
+  @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+}
+
+.lesson-nav-next {
+  @apply bg-tci-green text-white hover:bg-green-600 shadow-md hover:shadow-lg;
+}
+
+.lesson-nav-disabled {
+  @apply bg-gray-50 text-gray-400 cursor-not-allowed;
+}
+
+.lesson-nav-arrow {
+  @apply text-2xl;
+}
+
+.lesson-nav-content {
+  @apply flex flex-col items-start;
+}
+
+.lesson-nav-label {
+  @apply text-xs uppercase tracking-wide opacity-75;
+}
+
+.lesson-nav-title {
+  @apply text-sm sm:text-base font-bold;
+}
+
+@media (max-width: 640px) {
+  .lesson-nav-title {
+    @apply hidden;
+  }
+}
+
+/* Lesson Checklist */
+.lesson-checklist {
+  @apply bg-white rounded-xl p-6 shadow-md border-2 border-gray-200 mb-6;
+}
+
+.checklist-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.checklist-title {
+  @apply text-lg font-bold text-tci-dark;
+}
+
+.checklist-progress {
+  @apply text-sm font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full;
+}
+
+.checklist-items {
+  @apply space-y-3;
+}
+
+.checklist-item {
+  @apply flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200;
+}
+
+.checklist-checkbox {
+  @apply w-5 h-5 rounded border-2 border-gray-300 cursor-pointer accent-tci-green;
+}
+
+.checklist-label {
+  @apply text-gray-700 font-medium;
+}
+
+.checklist-label.completed {
+  @apply text-gray-500 line-through;
+}
+
+.checklist-complete {
+  @apply mt-4 p-3 bg-green-50 border-2 border-tci-green rounded-lg text-tci-green font-semibold text-center;
+}
+
+/* Success Toast */
+.success-toast {
+  @apply fixed top-20 right-4 sm:right-8 bg-white border-2 border-tci-green rounded-xl shadow-2xl z-50 transform transition-all duration-300;
+  opacity: 0;
+  transform: translateX(400px);
+}
+
+.success-toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.success-toast-content {
+  @apply flex items-center gap-3 px-6 py-4;
+}
+
+.success-toast-icon {
+  @apply text-2xl;
+}
+
+.success-toast-message {
+  @apply text-tci-dark font-semibold;
+}
+
+/* Onboarding Tour */
+.onboarding-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-[100] backdrop-blur-sm;
+}
+
+.onboarding-tour {
+  @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl z-[101] max-w-md w-full mx-4;
+  animation: onboarding-appear 0.3s ease-out;
+}
+
+@keyframes onboarding-appear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.onboarding-content {
+  @apply p-8;
+}
+
+.onboarding-title {
+  @apply text-2xl font-bold text-tci-dark mb-3;
+}
+
+.onboarding-description {
+  @apply text-gray-600 mb-6 leading-relaxed;
+}
+
+.onboarding-actions {
+  @apply flex items-center justify-between gap-4;
+}
+
+.onboarding-skip {
+  @apply text-gray-500 hover:text-gray-700 font-medium transition-colors;
+}
+
+.onboarding-dots {
+  @apply flex items-center gap-2;
+}
+
+.onboarding-dot {
+  @apply w-2 h-2 rounded-full bg-gray-300 transition-all duration-200;
+}
+
+.onboarding-dot.active {
+  @apply bg-tci-green w-6;
+}
+
+.onboarding-next {
+  @apply bg-tci-green text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-colors;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .lesson-navigation-inner {
+    @apply px-2 py-3;
+  }
+
+  .lesson-nav-button {
+    @apply px-3 py-2 gap-2;
+  }
+
+  .progress-tracker {
+    @apply px-2 py-3;
+  }
+}
+
+/* Add padding to body to account for fixed navigation */
+body {
+  @apply pb-24;
 }

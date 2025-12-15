@@ -355,7 +355,26 @@ export const UI_TRANSLATIONS = {
     ],
     introPageTryIt: "Try placing some stones on the board below to get a feel for the game!",
     introPageNext: "Ready to learn the fundamentals? Let's start with placing stones and understanding liberties.",
-    introPageStartLearning: "Start Learning Fundamentals"
+    introPageStartLearning: "Start Learning Fundamentals",
+
+    // New sections
+    introPageScoring: "Scoring & Winning",
+    introPageScoringRules: [
+      "Afterwards: Territory + captured stones = Score",
+      "Whoever has more points wins"
+    ],
+    introPageKomi: "Komi",
+    introPageKomiDescription: "Because Black plays first, White gets +5.5 or +6.5 points. This keeps the game balanced.",
+    introPagePassing: "Passing & Game End",
+    introPagePassingDescription: "Pass = You skip your turn when there are no meaningful moves left. Two consecutive passes = Game over → remove dead groups, count score.",
+    introPageTerritory: "Territory",
+    introPageTerritoryDescription: "Empty points surrounded only by your stones. Each point = 1 point of territory. Each captured stone = +1 point.",
+    introPageBoardSizes: "Board Sizes",
+    introPageBoardSizesDescription: "9×9 → perfect for beginners: fast & clear. 13×13 → intermediate level. 19×19 → official tournament board, maximum depth.",
+    introPageTip: "Tip",
+    introPageTipDescription: "Start on 9×9 – learn how groups live, die, and territory is formed. Go is easy to learn, but endlessly deep – every game is unique.",
+    introPageWhatMakesSpecial: "What makes Go special?",
+    introPageSpecialDescription: "Go has simple rules but incredible depth. Every game is unique, and there are more possible games than atoms in the observable universe! The game teaches patience, strategic thinking, and pattern recognition."
   },
   de: {
     goTutorial: "Go Lernprogramm",

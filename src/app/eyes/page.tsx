@@ -7,7 +7,7 @@ import { LESSONS } from '@/content/strings'
 
 const setupLessonBoard = (lesson: number) => {
   const initialState = createInitialState()
-  
+
   if (lesson === 1) {
     // Lesson 1: Self-capture illegal - surrounded black group
     initialState.board[3][3] = 'B'
@@ -88,7 +88,7 @@ const setupLessonBoard = (lesson: number) => {
     initialState.board[6][2] = 'W'
     initialState.board[6][3] = 'W'
     initialState.board[6][4] = 'W'
-    
+
     // Surround with black stones to show it cannot be killed
     // Top and bottom
     initialState.board[1][1] = 'B'
@@ -130,7 +130,7 @@ const setupLessonBoard = (lesson: number) => {
     initialState.board[5][6] = 'B'
     initialState.board[6][6] = 'B'
   }
-  
+
   return initialState
 }
 
@@ -139,7 +139,7 @@ export default function EyesPage() {
     // Set up initial board based on current lesson
     return setupLessonBoard(1)
   })
-  const [hover, setHover] = useState<{x: number; y: number; color: "B"|"W"}|null>(null)
+  const [hover, setHover] = useState<{ x: number; y: number; color: "B" | "W" } | null>(null)
   const [step, setStep] = useState(0)
   const [currentLesson, setCurrentLesson] = useState(1) // 1: Self-capture, 2: Capture with self-capture, 3: Two eyes
   const [lessonStep, setLessonStep] = useState(0)
@@ -153,16 +153,14 @@ export default function EyesPage() {
       const { nextState, captured } = placeStone(state, { x, y }, color)
       setState(nextState)
       setStep(step + 1)
-      
+
       // Check for lesson-specific scenarios
       if (currentLesson === 1) {
         // Lesson 1: Self-capture should be illegal
-        if (captured.some(c => c.color === color)) {
-          setLessonStep(1) // Show self-capture is illegal
-        }
+        // If we are here, the move was legal (didn't throw), so it wasn't self-capture
       } else if (currentLesson === 2) {
         // Lesson 2: Self-capture becomes legal when capturing enemy
-        if (captured.some(c => c.color === color) && captured.some(c => c.color !== color)) {
+        if (captured.length > 0) {
           setLessonStep(1) // Show self-capture is now legal
         }
       } else if (currentLesson === 3) {
@@ -186,12 +184,12 @@ export default function EyesPage() {
     const padding = 32
     const inner = size - padding * 2
     const cell = inner / 8
-    
+
     const px = e.clientX - rect.left - padding
     const py = e.clientY - rect.top - padding
     const i = Math.round(px / cell)
     const j = Math.round(py / cell)
-    
+
     if (i >= 0 && i < 9 && j >= 0 && j < 9) {
       // Always show black pieces for all lessons
       setHover({ x: i, y: j, color: "B" })
@@ -224,8 +222,8 @@ export default function EyesPage() {
           {LESSONS.eyes.title}
         </h1>
         <div className="tci-progress-track w-full max-w-md mx-auto">
-          <div 
-            className="tci-progress-fill" 
+          <div
+            className="tci-progress-fill"
             style={{ width: `${(step / 2) * 100}%` }}
           />
         </div>
@@ -233,7 +231,7 @@ export default function EyesPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div className="flex justify-center lg:justify-start">
-          <div 
+          <div
             className="inline-block"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -258,33 +256,30 @@ export default function EyesPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <button
                 onClick={() => switchLesson(1)}
-                className={`px-4 py-3 rounded-lg text-center ${
-                  currentLesson === 1 
-                    ? 'bg-tci-green text-white' 
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+                className={`px-4 py-3 rounded-lg text-center ${currentLesson === 1
+                  ? 'bg-tci-green text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
               >
                 <div className="font-semibold">Lesson 1</div>
                 <div className="text-sm">Self-Capture</div>
               </button>
               <button
                 onClick={() => switchLesson(2)}
-                className={`px-4 py-3 rounded-lg text-center ${
-                  currentLesson === 2 
-                    ? 'bg-tci-green text-white' 
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+                className={`px-4 py-3 rounded-lg text-center ${currentLesson === 2
+                  ? 'bg-tci-green text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
               >
                 <div className="font-semibold">Lesson 2</div>
                 <div className="text-sm">Capture with Self-Capture</div>
               </button>
               <button
                 onClick={() => switchLesson(3)}
-                className={`px-4 py-3 rounded-lg text-center ${
-                  currentLesson === 3 
-                    ? 'bg-tci-green text-white' 
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+                className={`px-4 py-3 rounded-lg text-center ${currentLesson === 3
+                  ? 'bg-tci-green text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
               >
                 <div className="font-semibold">Lesson 3</div>
                 <div className="text-sm">Two Eyes</div>
@@ -299,7 +294,7 @@ export default function EyesPage() {
                 Lesson 1: Self-Capture is Illegal
               </h3>
               <p className="text-gray-700 mb-4">
-                The black group is surrounded by white stones. Try to place a black stone inside the black group. 
+                The black group is surrounded by white stones. Try to place a black stone inside the black group.
                 This would capture your own stones, which is illegal in Go.
               </p>
               <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
@@ -327,7 +322,7 @@ export default function EyesPage() {
                 Lesson 2: Capture with Self-Capture (Exception)
               </h3>
               <p className="text-gray-700 mb-4">
-                Now try to place a black stone inside the white group. This will capture both your own stones 
+                Now try to place a black stone inside the white group. This will capture both your own stones
                 AND the surrounding white stones, making self-capture legal!
               </p>
               <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
@@ -355,8 +350,8 @@ export default function EyesPage() {
                 Lesson 3: Two Eyes for Life
               </h3>
               <p className="text-gray-700 mb-4">
-                The white group has two eyes and is completely surrounded by black stones. 
-                Try to capture the white group - you'll find it's impossible! Two eyes make a group uncapturable.
+                The white group has two eyes and is completely surrounded by black stones.
+                Try to capture the white group - you&apos;ll find it&apos;s impossible! Two eyes make a group uncapturable.
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
                 <p className="text-sm text-blue-800">
@@ -371,7 +366,7 @@ export default function EyesPage() {
                   Reset
                 </button>
                 <div className="text-sm text-gray-600 flex items-center">
-                  Try to capture the white group - it's impossible!
+                  Try to capture the white group - it&apos;s impossible!
                 </div>
               </div>
             </div>
@@ -400,7 +395,7 @@ export default function EyesPage() {
                   Self-Capture Exception Works!
                 </h3>
                 <p className="text-green-700">
-                  Because you also captured enemy stones, self-capture becomes legal. 
+                  Because you also captured enemy stones, self-capture becomes legal.
                   You captured both your own stones and the surrounding white stones.
                 </p>
               </div>
@@ -415,7 +410,7 @@ export default function EyesPage() {
                   Two Eyes Make Life!
                 </h3>
                 <p className="text-blue-700">
-                  The white group has two eyes and cannot be captured, even when completely surrounded! 
+                  The white group has two eyes and cannot be captured, even when completely surrounded!
                   This demonstrates the power of two eyes in Go.
                 </p>
               </div>

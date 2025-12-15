@@ -341,8 +341,8 @@ export default function CountingPage() {
             <button
               onClick={() => setCurrentLesson(1)}
               className={`px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${currentLesson === 1
-                  ? 'bg-gradient-to-r from-tci-green to-green-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg'
+                ? 'bg-gradient-to-r from-tci-green to-green-600 text-white shadow-lg'
+                : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg'
                 }`}
             >
               Lesson 1: Basic Counting
@@ -350,8 +350,8 @@ export default function CountingPage() {
             <button
               onClick={() => setCurrentLesson(2)}
               className={`px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${currentLesson === 2
-                  ? 'bg-gradient-to-r from-tci-green to-green-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg'
+                ? 'bg-gradient-to-r from-tci-green to-green-600 text-white shadow-lg'
+                : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg'
                 }`}
             >
               Lesson 2: Advanced Counting
@@ -447,8 +447,8 @@ export default function CountingPage() {
                         setShowBlackTerritory(!showBlackTerritory)
                       }}
                       className={`px-6 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${showBlackTerritory
-                          ? 'bg-gradient-to-r from-black to-gray-800 text-white shadow-lg'
-                          : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg border border-gray-200'
+                        ? 'bg-gradient-to-r from-black to-gray-800 text-white shadow-lg'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg border border-gray-200'
                         }`}
                     >
                       {showBlackTerritory ? 'Hide Black Territory' : 'Show Black Territory'}
@@ -466,8 +466,8 @@ export default function CountingPage() {
                         setShowWhiteTerritory(!showWhiteTerritory)
                       }}
                       className={`px-6 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${showWhiteTerritory
-                          ? 'bg-gradient-to-r from-white to-gray-100 text-black border-2 border-gray-400 shadow-lg'
-                          : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg border border-gray-200'
+                        ? 'bg-gradient-to-r from-white to-gray-100 text-black border-2 border-gray-400 shadow-lg'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 shadow-lg border border-gray-200'
                         }`}
                     >
                       {showWhiteTerritory ? 'Hide White Territory' : 'Show White Territory'}
@@ -564,7 +564,7 @@ export default function CountingPage() {
               <div className="bg-red-50 border border-red-200 rounded p-4">
                 <h3 className="font-semibold text-red-800 mb-2">Dead Stones</h3>
                 <p className="text-red-700 text-sm">
-                  Dead stones are stones that cannot avoid capture. During counting, they are removed from the board and added to the opponent's captured stones.
+                  Dead stones are stones that cannot avoid capture. During counting, they are removed from the board and added to the opponent&apos;s captured stones.
                 </p>
               </div>
 
@@ -580,7 +580,7 @@ export default function CountingPage() {
               <div className="bg-yellow-50 border border-yellow-200 rounded p-4">
                 <h3 className="font-semibold text-yellow-800 mb-2">Komi</h3>
                 <p className="text-yellow-700 text-sm">
-                  Komi is compensation points given to White (usually 6.5 or 7.5 points on 19×19 boards, can be smaller like 5.5 on 9×9) because Black played first. Komi is always added to White's final score.
+                  Komi is compensation points given to White (usually 6.5 or 7.5 points on 19×19 boards, can be smaller like 5.5 on 9×9) because Black played first. Komi is always added to White&apos;s final score.
                 </p>
               </div>
 
@@ -642,8 +642,8 @@ export default function CountingPage() {
                         setShowBlackTerritory(!showBlackTerritory)
                       }}
                       className={`px-4 py-2 rounded ${showBlackTerritory
-                          ? 'bg-black text-white'
-                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        ? 'bg-black text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                         }`}
                     >
                       {showBlackTerritory ? 'Hide Black Territory' : 'Show Black Territory'}
@@ -661,8 +661,8 @@ export default function CountingPage() {
                         setShowWhiteTerritory(!showWhiteTerritory)
                       }}
                       className={`px-4 py-2 rounded ${showWhiteTerritory
-                          ? 'bg-white text-black border-2 border-gray-400'
-                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        ? 'bg-white text-black border-2 border-gray-400'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                         }`}
                     >
                       {showWhiteTerritory ? 'Hide White Territory' : 'Show White Territory'}
@@ -673,8 +673,8 @@ export default function CountingPage() {
                   <button
                     onClick={() => setShowDeadStones(!showDeadStones)}
                     className={`w-full px-4 py-2 rounded ${showDeadStones
-                        ? 'bg-red-600 text-white'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      ? 'bg-red-600 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                   >
                     {showDeadStones ? 'Hide Dead Stone Marking' : 'Toggle Dead Stone Marking'}
@@ -761,8 +761,8 @@ export default function CountingPage() {
                   Instructions
                 </h3>
                 <ul className="text-blue-700 text-sm space-y-1">
-                  <li>• Click "Show Territory" to highlight territory points</li>
-                  <li>• Toggle "Dead Stone Marking" then click stones to mark them as dead</li>
+                  <li>• Click &quot;Show Territory&quot; to highlight territory points</li>
+                  <li>• Toggle &quot;Dead Stone Marking&quot; then click stones to mark them as dead</li>
                   <li>• Adjust komi using the dropdown</li>
                   <li>• Watch the live score update automatically</li>
                   <li>• Dead stones fade out and count as captures for the opponent</li>

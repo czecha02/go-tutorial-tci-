@@ -11,32 +11,32 @@ export default function CapturePage() {
     // Pre-place white stones in vulnerable positions for capture practice
     // Group 1: Single stone (1 liberty) - Top left
     initialState.board[1][1] = 'W'
-    
+
     // Group 2: Two connected stones (2 liberties) - Top right
     initialState.board[7][1] = 'W'
     initialState.board[7][2] = 'W'
-    
+
     // Group 3: Three connected stones (3 liberties) - Bottom left
     initialState.board[1][7] = 'W'
     initialState.board[2][7] = 'W'
     initialState.board[1][8] = 'W'
-    
+
     // Group 4: L-shaped group (4 liberties) - Bottom right
     // 3 stones in a line + 1 at top left
     initialState.board[6][6] = 'W'  // Top left of L
     initialState.board[7][6] = 'W'  // Middle of line
     initialState.board[8][6] = 'W'  // End of line
     initialState.board[6][7] = 'W'  // Bottom of L
-    
+
     // Group 5: Larger group (5 liberties) - Center
     initialState.board[4][4] = 'W'
     initialState.board[4][5] = 'W'
     initialState.board[5][4] = 'W'
     initialState.board[5][5] = 'W'
-    
+
     return initialState
   })
-  const [hover, setHover] = useState<{x: number; y: number; color: "B"|"W"}|null>(null)
+  const [hover, setHover] = useState<{ x: number; y: number; color: "B" | "W" } | null>(null)
   const [step, setStep] = useState(0)
   const [currentTask, setCurrentTask] = useState(1)
   const [completedTasks, setCompletedTasks] = useState<Set<number>>(new Set())
@@ -46,11 +46,11 @@ export default function CapturePage() {
   // Define the specific groups that need to be captured for each task
   const getTaskGroups = (task: number) => {
     switch (task) {
-      case 1: return [{x: 1, y: 1}] // Single stone at B2
-      case 2: return [{x: 7, y: 1}, {x: 7, y: 2}] // Two stones at H2-H3
-      case 3: return [{x: 1, y: 7}, {x: 2, y: 7}, {x: 1, y: 8}] // Three stones at B8-C8-B9
-      case 4: return [{x: 6, y: 6}, {x: 7, y: 6}, {x: 8, y: 6}, {x: 6, y: 7}] // L-shaped group
-      case 5: return [{x: 4, y: 4}, {x: 4, y: 5}, {x: 5, y: 4}, {x: 5, y: 5}] // Larger group
+      case 1: return [{ x: 1, y: 1 }] // Single stone at B2
+      case 2: return [{ x: 7, y: 1 }, { x: 7, y: 2 }] // Two stones at H2-H3
+      case 3: return [{ x: 1, y: 7 }, { x: 2, y: 7 }, { x: 1, y: 8 }] // Three stones at B8-C8-B9
+      case 4: return [{ x: 6, y: 6 }, { x: 7, y: 6 }, { x: 8, y: 6 }, { x: 6, y: 7 }] // L-shaped group
+      case 5: return [{ x: 4, y: 4 }, { x: 4, y: 5 }, { x: 5, y: 4 }, { x: 5, y: 5 }] // Larger group
       default: return []
     }
   }
@@ -63,26 +63,26 @@ export default function CapturePage() {
       setState(nextState)
       if (captured.length > 0) {
         setStep(step + 1)
-        
+
         // Check which tasks are now completed based on captured stones
         const newCompletedTasks = new Set(completedTasks)
-        
+
         // Check each task to see if its target group is completely captured
         for (let taskNum = 1; taskNum <= 5; taskNum++) {
           if (!newCompletedTasks.has(taskNum)) {
             const taskGroup = getTaskGroups(taskNum)
-            const isGroupCaptured = taskGroup.every(stone => 
+            const isGroupCaptured = taskGroup.every(stone =>
               nextState.board[stone.x][stone.y] === null
             )
-            
+
             if (isGroupCaptured) {
               newCompletedTasks.add(taskNum)
             }
           }
         }
-        
+
         setCompletedTasks(newCompletedTasks)
-        
+
         // Update current task to the next uncompleted task
         for (let taskNum = 1; taskNum <= 5; taskNum++) {
           if (!newCompletedTasks.has(taskNum)) {
@@ -124,12 +124,12 @@ export default function CapturePage() {
     const padding = 32
     const inner = size - padding * 2
     const cell = inner / 8
-    
+
     const px = e.clientX - rect.left - padding
     const py = e.clientY - rect.top - padding
     const i = Math.round(px / cell)
     const j = Math.round(py / cell)
-    
+
     if (i >= 0 && i < 9 && j >= 0 && j < 9) {
       // Always show black pieces for capture lesson
       setHover({ x: i, y: j, color: "B" })
@@ -170,8 +170,8 @@ export default function CapturePage() {
           {LESSONS.capture.title}
         </h1>
         <div className="tci-progress-track w-full max-w-md mx-auto">
-          <div 
-            className="tci-progress-fill" 
+          <div
+            className="tci-progress-fill"
             style={{ width: `${completedTasks.size / 5 * 100}%` }}
           />
         </div>
@@ -186,7 +186,7 @@ export default function CapturePage() {
           {getTaskDescription(currentTask)}
         </h3>
         <p className="text-gray-700 mb-4">
-          {currentTask <= 5 ? 
+          {currentTask <= 5 ?
             `Place black stones to capture the white group. Each group has different liberty patterns - use what you learned about liberties to find the right moves!` :
             "Congratulations! You've completed all capture tasks."
           }
@@ -206,7 +206,7 @@ export default function CapturePage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div className="flex justify-center lg:justify-start">
-          <div 
+          <div
             className="inline-block"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -228,7 +228,7 @@ export default function CapturePage() {
               What
             </h3>
             <p className="text-gray-700 mb-4">{LESSONS.capture.what}</p>
-            
+
             <h3 className="text-xl font-semibold text-tci-dark mb-4">
               Why this matters
             </h3>
@@ -244,7 +244,7 @@ export default function CapturePage() {
                   Excellent!
                 </h3>
                 <p className="text-gray-700 mb-4">
-                  You've mastered the art of capture! You can now:
+                  You&apos;ve mastered the art of capture! You can now:
                   <br />• Identify vulnerable groups
                   <br />• Count liberties accurately
                   <br />• Execute capture sequences
@@ -265,15 +265,14 @@ export default function CapturePage() {
               {[1, 2, 3, 4, 5].map((taskNum) => {
                 const isCompleted = completedTasks.has(taskNum)
                 const isCurrent = currentTask === taskNum && !isCompleted
-                
+
                 return (
-                  <div 
+                  <div
                     key={taskNum}
-                    className={`flex items-center p-2 rounded ${
-                      isCompleted ? 'bg-green-100 text-green-800' :
-                      isCurrent ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-gray-600'
-                    }`}
+                    className={`flex items-center p-2 rounded ${isCompleted ? 'bg-green-100 text-green-800' :
+                        isCurrent ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-600'
+                      }`}
                   >
                     <div className="w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mr-3">
                       {isCompleted ? '✓' : taskNum}

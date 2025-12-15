@@ -17,7 +17,7 @@ export default function KoPage() {
     initialState.board[4][5] = 'W'
     return initialState
   })
-  const [hover, setHover] = useState<{x: number; y: number; color: "B"|"W"}|null>(null)
+  const [hover, setHover] = useState<{ x: number; y: number; color: "B" | "W" } | null>(null)
   const [step, setStep] = useState(0)
 
   const stones = useMemo(() => toStoneArray(state.board), [state.board])
@@ -39,12 +39,12 @@ export default function KoPage() {
     const padding = 32
     const inner = size - padding * 2
     const cell = inner / 8
-    
+
     const px = e.clientX - rect.left - padding
     const py = e.clientY - rect.top - padding
     const i = Math.round(px / cell)
     const j = Math.round(py / cell)
-    
+
     if (i >= 0 && i < 9 && j >= 0 && j < 9) {
       setHover({ x: i, y: j, color: state.toPlay })
     }
@@ -73,8 +73,8 @@ export default function KoPage() {
           {LESSONS.ko.title}
         </h1>
         <div className="tci-progress-track w-full max-w-md mx-auto">
-          <div 
-            className="tci-progress-fill" 
+          <div
+            className="tci-progress-fill"
             style={{ width: `${(step / 2) * 100}%` }}
           />
         </div>
@@ -82,7 +82,7 @@ export default function KoPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
-          <div 
+          <div
             className="inline-block"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -103,7 +103,7 @@ export default function KoPage() {
               What
             </h3>
             <p className="text-gray-700 mb-4">{LESSONS.ko.what}</p>
-            
+
             <h3 className="text-xl font-semibold text-tci-dark mb-4">
               Why this matters
             </h3>
@@ -138,7 +138,7 @@ export default function KoPage() {
                   Ko understood!
                 </h3>
                 <p className="text-gray-700 mb-4">
-                  You've learned about the ko rule and how to handle ko fights.
+                  You&apos;ve learned about the ko rule and how to handle ko fights.
                 </p>
                 <a href="/eyes" className="tci-button-primary">
                   Next: Eyes & Life

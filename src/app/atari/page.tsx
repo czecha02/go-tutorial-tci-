@@ -7,23 +7,23 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import BoardSvg from '@/components/BoardSvg';
-import { 
-  GameState, 
-  Point, 
-  Color, 
-  createInitialState, 
-  placeStone, 
-  isGameOver, 
-  getWinner, 
-  resetGame, 
-  toggleBot, 
-  setHumanColor, 
+import {
+  GameState,
+  Point,
+  Color,
+  createInitialState,
+  placeStone,
+  isGameOver,
+  getWinner,
+  resetGame,
+  toggleBot,
+  setHumanColor,
   passTurn,
   findAtariGroups,
   coordToPoint,
   pointToCoord
 } from '@/lib/atariState';
-import { chooseMove, getHint } from '@/lib/atariBot';
+import { chooseMove } from '@/lib/atariBot';
 
 export default function AtariPage() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -45,21 +45,21 @@ export default function AtariPage() {
 
     const point: Point = { x, y };
     const result = placeStone(gameState, point, gameState.toPlay);
-    
+
     if (!result) {
       // Illegal move
       if (gameState.board[x][y] !== null) {
-        showToastMessage('Illegal: Position occupied');
+        showToastMessage('Ungültig: Position besetzt');
       } else if (gameState.koPoint && point.x === gameState.koPoint.x && point.y === gameState.koPoint.y) {
-        showToastMessage('Illegal: Ko rule');
+        showToastMessage('Ungültig: Ko-Regel');
       } else {
-        showToastMessage('Illegal: Suicide move');
+        showToastMessage('Ungültig: Selbstmord-Zug');
       }
       return;
     }
 
     setGameState(result.next);
-    
+
     // Check for atari groups to highlight
     const opponentColor: Color = gameState.toPlay === 'B' ? 'W' : 'B';
     const newAtariGroups = findAtariGroups(result.next.board, opponentColor);
@@ -77,7 +77,7 @@ export default function AtariPage() {
           const botResult = placeStone(result.next, botMove, result.next.toPlay);
           if (botResult) {
             setGameState(botResult.next);
-            
+
             // Check for atari groups after bot move
             const botOpponentColor: Color = result.next.toPlay === 'B' ? 'W' : 'B';
             const botAtariGroups = findAtariGroups(botResult.next.board, botOpponentColor);
@@ -119,18 +119,13 @@ export default function AtariPage() {
     setGameState(prev => passTurn(prev));
   }, [gameState]);
 
-  // Get hint
-  const handleGetHint = useCallback(() => {
-    if (isGameOver(gameState)) return;
-    const hint = getHint(gameState, gameState.toPlay);
-    showToastMessage(hint);
-  }, [gameState, showToastMessage]);
+
 
   // Handle mouse move for hover
   const handleMouseMove = useCallback((x: number, y: number) => {
     if (isGameOver(gameState)) return;
     if (gameState.botEnabled && gameState.toPlay !== gameState.humanColor) return;
-    
+
     // Check if position is empty
     if (gameState.board[x][y] === null) {
       setHoverPosition({ x, y });
@@ -145,8 +140,8 @@ export default function AtariPage() {
   }, []);
 
   // Convert board state for BoardSvg
-  const boardStones = gameState.board.flatMap((row, x) => 
-    row.map((cell, y) => 
+  const boardStones = gameState.board.flatMap((row, x) =>
+    row.map((cell, y) =>
       cell ? { x, y, color: cell as "B" | "W" } : null
     ).filter((stone): stone is { x: number; y: number; color: "B" | "W" } => stone !== null)
   );
@@ -159,10 +154,10 @@ export default function AtariPage() {
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-tci-dark mb-4">
-          Atari Go (First Capture Wins)
+          Atari Go (Erste Gefangennahme gewinnt)
         </h1>
         <p className="text-gray-700 mb-4">
-          Place stones to capture your opponent&apos;s stones. First player to capture wins!
+          Setze Steine, um die Steine deines Gegners zu schlagen. Wer zuerst schlägt, gewinnt!
         </p>
       </div>
 
@@ -188,29 +183,29 @@ export default function AtariPage() {
           {/* Game Status */}
           <div className="tci-card bg-tci-light">
             <h3 className="text-lg font-semibold text-tci-dark mb-4">
-              Game Status
+              Spielstatus
             </h3>
-            
+
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-600">Turn:</span>
+                <span className="text-gray-600">Am Zug:</span>
                 <span className={`font-semibold ${gameState.toPlay === 'B' ? 'text-black' : 'text-gray-600'}`}>
-                  {gameState.toPlay === 'B' ? 'Black' : 'White'}
+                  {gameState.toPlay === 'B' ? 'Schwarz' : 'Weiß'}
                 </span>
               </div>
-              
+
               <div className="flex justify-between">
-                <span className="text-gray-600">Captured:</span>
+                <span className="text-gray-600">Geschlagen:</span>
                 <span className="font-semibold text-gray-900">
                   B: {gameState.captured.B} | W: {gameState.captured.W}
                 </span>
               </div>
-              
+
               {gameOver && winner && (
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Winner:</span>
+                  <span className="text-gray-600">Gewinner:</span>
                   <span className={`font-semibold ${winner === 'B' ? 'text-black' : 'text-gray-600'}`}>
-                    {winner === 'B' ? 'Black' : 'White'} wins by capture!
+                    {winner === 'B' ? 'Schwarz' : 'Weiß'} gewinnt durch Gefangennahme!
                   </span>
                 </div>
               )}
@@ -220,50 +215,43 @@ export default function AtariPage() {
           {/* Controls */}
           <div className="tci-card bg-tci-light">
             <h3 className="text-lg font-semibold text-tci-dark mb-4">
-              Controls
+              Steuerung
             </h3>
-            
+
             <div className="space-y-3">
               <button
                 onClick={handleToggleBot}
-                className={`w-full px-4 py-2 rounded ${
-                  gameState.botEnabled
-                    ? 'bg-red-200 text-red-800 hover:bg-red-300'
-                    : 'bg-green-200 text-green-800 hover:bg-green-300'
-                }`}
+                className={`w-full px-4 py-2 rounded ${gameState.botEnabled
+                  ? 'bg-red-200 text-red-800 hover:bg-red-300'
+                  : 'bg-green-200 text-green-800 hover:bg-green-300'
+                  }`}
               >
-                {gameState.botEnabled ? 'Stop Bot' : 'Play vs Bot'}
+                {gameState.botEnabled ? 'Bot stoppen' : 'Gegen Bot spielen'}
               </button>
-              
+
               <button
                 onClick={handleToggleHumanColor}
                 disabled={gameOver}
                 className="w-full px-4 py-2 bg-blue-200 text-blue-800 rounded hover:bg-blue-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Human plays {gameState.humanColor === 'B' ? 'White' : 'Black'}
+                Mensch spielt {gameState.humanColor === 'B' ? 'Weiß' : 'Schwarz'}
               </button>
-              
-              <button
-                onClick={handleGetHint}
-                disabled={gameOver}
-                className="w-full px-4 py-2 bg-yellow-200 text-yellow-800 rounded hover:bg-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Get Hint
-              </button>
-              
+
+
+
               <button
                 onClick={handlePass}
                 disabled={gameOver}
                 className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Pass Turn
+                Passen
               </button>
-              
+
               <button
                 onClick={handleReset}
                 className="w-full px-4 py-2 bg-red-200 text-red-800 rounded hover:bg-red-300"
               >
-                Reset Game
+                Spiel zurücksetzen
               </button>
             </div>
           </div>
@@ -271,14 +259,14 @@ export default function AtariPage() {
           {/* Instructions */}
           <div className="tci-card bg-blue-50 border border-blue-200">
             <h3 className="text-lg font-semibold text-blue-800 mb-2">
-              How to Play
+              Spielanleitung
             </h3>
             <ul className="text-blue-700 text-sm space-y-1">
-              <li>• Click to place stones</li>
-              <li>• Capture opponent stones by surrounding them</li>
-              <li>• First capture wins the game</li>
-              <li>• Red highlights show groups in atari (one liberty)</li>
-              <li>• Use hints if you get stuck</li>
+              <li>• Klicke, um Steine zu setzen</li>
+              <li>• Schlage gegnerische Steine durch Umzingeln</li>
+              <li>• Die erste Gefangennahme gewinnt das Spiel</li>
+              <li>• Rote Markierungen zeigen Gruppen in Atari (eine Freiheit)</li>
+
             </ul>
           </div>
         </div>
