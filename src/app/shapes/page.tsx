@@ -4,6 +4,7 @@ import { useState } from 'react'
 import BoardSvg from '@/components/BoardSvg'
 import { SHAPE_LESSONS } from '@/content/strings'
 import { LESSONS } from '@/content/strings'
+import LessonNavigation from '@/components/LessonNavigation'
 
 export default function ShapesPage() {
   const [currentShape, setCurrentShape] = useState<keyof typeof SHAPE_LESSONS>('bambooJoint')
@@ -135,10 +136,10 @@ export default function ShapesPage() {
                   key={key}
                   onClick={() => setCurrentShape(key as keyof typeof SHAPE_LESSONS)}
                   className={`p-3 rounded-lg text-left transition-colors ${currentShape === key
-                      ? 'bg-tci-green text-white'
-                      : isGoodShape(key)
-                        ? 'bg-green-50 text-green-800 hover:bg-green-100'
-                        : 'bg-red-50 text-red-800 hover:bg-red-100'
+                    ? 'bg-tci-green text-white'
+                    : isGoodShape(key)
+                      ? 'bg-green-50 text-green-800 hover:bg-green-100'
+                      : 'bg-red-50 text-red-800 hover:bg-red-100'
                     }`}
                 >
                   <div className="font-semibold text-sm">{lesson.title}</div>
@@ -185,6 +186,7 @@ export default function ShapesPage() {
           )}
         </div>
       </div>
+      <LessonNavigation currentLessonId={5} />
     </div>
   )
 }

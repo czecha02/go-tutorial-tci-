@@ -11,11 +11,6 @@ const tourSteps = [
         highlight: null
     },
     {
-        title: 'Dein Fortschritt 📊',
-        description: 'Hier oben siehst du deinen Fortschritt durch alle Lektionen.',
-        highlight: '.progress-tracker-container'
-    },
-    {
         title: 'Navigation 🧭',
         description: 'Nutze die Weiter/Zurück-Buttons unten, um durch die Lektionen zu navigieren.',
         highlight: '.lesson-navigation'

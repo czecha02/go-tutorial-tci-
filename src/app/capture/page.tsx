@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import BoardSvg from '@/components/BoardSvg'
 import { createInitialState, placeStone, toStoneArray, GameState } from '@/lib/engine'
 import { LESSONS } from '@/content/strings'
+import LessonNavigation from '@/components/LessonNavigation'
 
 export default function CapturePage() {
   const [state, setState] = useState<GameState>(() => {
@@ -270,8 +271,8 @@ export default function CapturePage() {
                   <div
                     key={taskNum}
                     className={`flex items-center p-2 rounded ${isCompleted ? 'bg-green-100 text-green-800' :
-                        isCurrent ? 'bg-blue-100 text-blue-800' :
-                          'bg-gray-100 text-gray-600'
+                      isCurrent ? 'bg-blue-100 text-blue-800' :
+                        'bg-gray-100 text-gray-600'
                       }`}
                   >
                     <div className="w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mr-3">
@@ -300,6 +301,7 @@ export default function CapturePage() {
           </div>
         </div>
       </div>
+      <LessonNavigation currentLessonId={2} />
     </div>
   )
 }

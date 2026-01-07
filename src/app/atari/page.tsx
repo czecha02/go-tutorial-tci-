@@ -24,6 +24,7 @@ import {
   pointToCoord
 } from '@/lib/atariState';
 import { chooseMove } from '@/lib/atariBot';
+import LessonNavigation from '@/components/LessonNavigation';
 
 export default function AtariPage() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -278,6 +279,7 @@ export default function AtariPage() {
           {showToast}
         </div>
       )}
+      <LessonNavigation currentLessonId={6} />
     </div>
   );
 }

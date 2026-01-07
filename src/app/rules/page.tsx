@@ -6,15 +6,16 @@ import { createInitialState, placeStone, toStoneArray, GameState, getGroup, getL
 import { getLessons, getUITranslations } from '@/content/strings'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useRulesLibertyHighlight } from './useRulesLibertyHighlight'
+import LessonNavigation from '@/components/LessonNavigation'
 
 export default function RulesPage() {
   // Translation setup
   const { language } = useLanguage()
   const lessons = getLessons(language)
   const t = getUITranslations(language)
-  
+
   const [state, setState] = useState<GameState>(createInitialState())
-  const [hover, setHover] = useState<{x: number; y: number; color: "B"|"W"}|null>(null)
+  const [hover, setHover] = useState<{ x: number; y: number; color: "B" | "W" } | null>(null)
   const [step, setStep] = useState(0)
   const [moveHistory, setMoveHistory] = useState<Array<{
     moveNumber: number
@@ -28,9 +29,9 @@ export default function RulesPage() {
   const [libertyKey, setLibertyKey] = useState(0) // Force re-render key
 
   const stones = useMemo(() => toStoneArray(state.board), [state.board])
-  
+
   // Generate board hash for reactivity
-  const boardHash = useMemo(() => 
+  const boardHash = useMemo(() =>
     JSON.stringify(state.board), [state.board]
   )
 
@@ -48,14 +49,14 @@ export default function RulesPage() {
     const color = "B"
     try {
       const { nextState } = placeStone(state, { x, y }, color)
-      
+
       // Calculate group information for this move
       const group = getGroup(nextState.board, x, y)
       const groupSize = group.length
       // Calculate liberties for the entire group
       const groupLiberties = getLiberties(nextState.board, x, y)
       const libertyCount = groupLiberties.length
-      
+
       // Determine group description
       let groupDescription = ""
       if (groupSize === 1) {
@@ -67,7 +68,7 @@ export default function RulesPage() {
       } else {
         groupDescription = `group of ${groupSize} stones`
       }
-      
+
       // Add move to history
       const newMove = {
         moveNumber: step + 1,
@@ -77,19 +78,19 @@ export default function RulesPage() {
         groupDescription,
         liberties: groupLiberties
       }
-      
+
       setMoveHistory(prev => [...prev, newMove])
-      
+
       // Highlight the liberties for this move
       setHighlightedLiberties(groupLiberties)
       setLibertyKey(prev => prev + 1) // Force re-render
-      
+
       // Clear highlights after 4 seconds
       setTimeout(() => {
         setHighlightedLiberties([])
         setLibertyKey(prev => prev + 1) // Force re-render
       }, 4000)
-      
+
       console.log('Rules Place Stone:', {
         position: { x, y },
         color,
@@ -101,7 +102,7 @@ export default function RulesPage() {
         liberties: groupLiberties,
         highlightedLiberties: groupLiberties
       })
-      
+
       setState(nextState)
       setStep(step + 1)
       // Liberty highlighting is handled automatically by the hook
@@ -117,12 +118,12 @@ export default function RulesPage() {
     const padding = 32
     const inner = size - padding * 2
     const cell = inner / 8
-    
+
     const px = e.clientX - rect.left - padding
     const py = e.clientY - rect.top - padding
     const i = Math.round(px / cell)
     const j = Math.round(py / cell)
-    
+
     if (i >= 0 && i < 9 && j >= 0 && j < 9) {
       setHover({ x: i, y: j, color: "B" }) // Always show black hover for Rules lesson
     }
@@ -157,8 +158,8 @@ export default function RulesPage() {
           {lessons.rules.title}
         </h1>
         <div className="tci-progress-track w-full max-w-md mx-auto">
-          <div 
-            className="tci-progress-fill" 
+          <div
+            className="tci-progress-fill"
             style={{ width: `${(step / 3) * 100}%` }}
           />
         </div>
@@ -184,8 +185,8 @@ export default function RulesPage() {
               </thead>
               <tbody>
                 {moveHistory.map((move, index) => (
-                  <tr 
-                    key={index} 
+                  <tr
+                    key={index}
                     className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors"
                     onClick={() => highlightMoveLiberties(move)}
                     title="Click to highlight liberties on board"
@@ -208,10 +209,10 @@ export default function RulesPage() {
                       {move.groupSize} {move.groupSize > 1 ? t.stones : t.stone}
                     </td>
                     <td className="py-3 px-4 text-gray-600 text-xs">
-                      {move.groupSize === 1 ? t.isolatedStone : 
-                       move.groupSize === 2 ? t.connectedPair :
-                       move.groupSize === 3 ? t.connectedTrio :
-                       t.largeGroup}
+                      {move.groupSize === 1 ? t.isolatedStone :
+                        move.groupSize === 2 ? t.connectedPair :
+                          move.groupSize === 3 ? t.connectedTrio :
+                            t.largeGroup}
                     </td>
                   </tr>
                 ))}
@@ -235,7 +236,7 @@ export default function RulesPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div className="flex justify-center lg:justify-start">
-          <div 
+          <div
             className="inline-block"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -262,17 +263,17 @@ export default function RulesPage() {
             <p className="text-gray-700 mb-4">
               {t.rulesPageWhat}
             </p>
-            
-             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-               <div className="flex items-center mb-2">
-                 <div className="w-4 h-4 bg-red-400 rounded-full mr-2"></div>
-                 <span className="text-sm font-semibold text-red-800">{t.groupLibertyHighlighting}</span>
-               </div>
-               <p className="text-sm text-red-700">
-                 {t.groupLibertyDescription}
-               </p>
-             </div>
-            
+
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center mb-2">
+                <div className="w-4 h-4 bg-red-400 rounded-full mr-2"></div>
+                <span className="text-sm font-semibold text-red-800">{t.groupLibertyHighlighting}</span>
+              </div>
+              <p className="text-sm text-red-700">
+                {t.groupLibertyDescription}
+              </p>
+            </div>
+
             <h3 className="text-xl font-semibold text-tci-dark mb-4">
               {t.whyThisMattersShort}
             </h3>
@@ -285,47 +286,47 @@ export default function RulesPage() {
             <h3 className="text-lg font-semibold text-tci-dark mb-4">
               {t.tryItYourself}
             </h3>
-             <p className="text-gray-700 mb-4">
-               {t.rulesPageTry}
-             </p>
+            <p className="text-gray-700 mb-4">
+              {t.rulesPageTry}
+            </p>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
               <p className="text-sm text-blue-800">
                 <strong>Note:</strong> {t.rulesPageNote}
               </p>
             </div>
-             <div className="flex space-x-4">
-               <button
-                 onClick={resetLesson}
-                 className="tci-button-secondary"
-               >
-                 {t.reset}
-               </button>
-               <div className="text-sm text-gray-600 flex items-center">
-                 {t.stepOf.replace('{{current}}', String(step + 1)).replace('{{total}}', '4')}
-               </div>
-             </div>
-             
-             {/* Debug information */}
-             {isActive && (
-               <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-4">
-                 <p className="text-sm text-green-800">
-                   <strong>{t.groupLibertyActive}</strong> {t.showingLiberties.replace('{{count}}', String(liberties.length))}
-                 </p>
-               </div>
-             )}
-             
-             {/* Highlighted liberties debug */}
-             {highlightedLiberties.length > 0 && (
-               <div className="bg-red-50 border border-red-200 rounded-lg p-3 mt-4">
-                 <p className="text-sm text-red-800">
-                   <strong>{t.manualLibertyHighlighting}</strong> {t.showingLiberties.replace('{{count}}', String(highlightedLiberties.length))}: {highlightedLiberties.map(l => `${String.fromCharCode(65 + l.x)}${9 - l.y}`).join(', ')}
-                 </p>
-                 <p className="text-xs text-red-600 mt-1">
-                   BoardSvg should show red circles at these positions. Key: {libertyKey}
-                 </p>
-               </div>
-             )}
-             
+            <div className="flex space-x-4">
+              <button
+                onClick={resetLesson}
+                className="tci-button-secondary"
+              >
+                {t.reset}
+              </button>
+              <div className="text-sm text-gray-600 flex items-center">
+                {t.stepOf.replace('{{current}}', String(step + 1)).replace('{{total}}', '4')}
+              </div>
+            </div>
+
+            {/* Debug information */}
+            {isActive && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-4">
+                <p className="text-sm text-green-800">
+                  <strong>{t.groupLibertyActive}</strong> {t.showingLiberties.replace('{{count}}', String(liberties.length))}
+                </p>
+              </div>
+            )}
+
+            {/* Highlighted liberties debug */}
+            {highlightedLiberties.length > 0 && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 mt-4">
+                <p className="text-sm text-red-800">
+                  <strong>{t.manualLibertyHighlighting}</strong> {t.showingLiberties.replace('{{count}}', String(highlightedLiberties.length))}: {highlightedLiberties.map(l => `${String.fromCharCode(65 + l.x)}${9 - l.y}`).join(', ')}
+                </p>
+                <p className="text-xs text-red-600 mt-1">
+                  BoardSvg should show red circles at these positions. Key: {libertyKey}
+                </p>
+              </div>
+            )}
+
           </div>
 
 
@@ -347,6 +348,7 @@ export default function RulesPage() {
           )}
         </div>
       </div>
+      <LessonNavigation currentLessonId={1} />
     </div>
   )
 }

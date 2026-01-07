@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import BoardSvg from '@/components/BoardSvg'
 import { createInitialState, placeStone, toStoneArray, GameState } from '@/lib/engine'
 import { LESSONS } from '@/content/strings'
+import LessonNavigation from '@/components/LessonNavigation'
 
 const setupLessonBoard = (lesson: number) => {
   const initialState = createInitialState()
@@ -447,6 +448,7 @@ export default function EyesPage() {
           )}
         </div>
       </div>
+      <LessonNavigation currentLessonId={3} />
     </div>
   )
 }

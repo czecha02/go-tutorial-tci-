@@ -1,10 +1,10 @@
-
 'use client'
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import BoardSvg from '@/components/BoardSvg'
 import { createInitialState, placeStone, toStoneArray, GameState, Point } from '@/lib/engine'
 import { getBotMove } from '@/lib/bot'
+import LessonNavigation from '@/components/LessonNavigation'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getUITranslations } from '@/content/strings'
 
@@ -143,19 +143,19 @@ export default function PlayBotPage() {
                         </h2>
 
                         <div className="flex items-center justify-between mb-8">
-                            <div className={`text-center p-4 rounded-2xl w-32 ${gameState.toPlay === 'B' ? 'bg-black text-white ring-4 ring-green-400' : 'bg-gray-200 text-gray-400'}`}>
+                            <div className={`text - center p - 4 rounded - 2xl w - 32 ${gameState.toPlay === 'B' ? 'bg-black text-white ring-4 ring-green-400' : 'bg-gray-200 text-gray-400'} `}>
                                 <div className="font-bold text-lg">{language === 'de' ? 'Du (Schwarz)' : 'You (Black)'}</div>
                                 <div className="text-sm mt-1">{language === 'de' ? 'Gefangen' : 'Captured'}: {gameState.captured.B}</div>
                             </div>
 
                             <div className="text-2xl font-bold text-gray-400">VS</div>
 
-                            <div className={`text-center p-4 rounded-2xl w-32 ${gameState.toPlay === 'W' ? 'bg-white text-black border-2 border-black ring-4 ring-green-400' : 'bg-gray-200 text-gray-400'}`}>
+                            <div className={`text - center p - 4 rounded - 2xl w - 32 ${gameState.toPlay === 'W' ? 'bg-white text-black border-2 border-black ring-4 ring-green-400' : 'bg-gray-200 text-gray-400'} `}>
                                 <div className="font-bold text-lg">Bot (White)</div>
                                 <div className="text-sm mt-1">{language === 'de' ? 'Gefangen' : 'Captured'}: {gameState.captured.W}</div>
                                 {isBotThinking && (
                                     <div className="text-sm text-green-600 mt-2 font-bold animate-pulse">
-                                        {language === 'de' ? `Denkt nach... ${countdown}s` : `Thinking... ${countdown}s`}
+                                        {language === 'de' ? `Denkt nach... ${countdown} s` : `Thinking... ${countdown} s`}
                                     </div>
                                 )}
                             </div>

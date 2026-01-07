@@ -5,6 +5,7 @@ import BoardSvg from '@/components/BoardSvg'
 import { createInitialState, placeStone, toStoneArray, GameState } from '@/lib/engine'
 import { LESSONS, getUITranslations } from '@/content/strings'
 import { useLanguage } from '@/contexts/LanguageContext'
+import LessonNavigation from '@/components/LessonNavigation'
 
 export default function CountingPage() {
   const { language } = useLanguage()
@@ -772,6 +773,7 @@ export default function CountingPage() {
           </div>
         </div>
       )}
+      <LessonNavigation currentLessonId={4} />
     </div>
   )
 }
