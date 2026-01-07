@@ -71,22 +71,17 @@ a {
 .language-switcher {
   @apply relative px-4 py-2.5 rounded-2xl font-bold flex items-center space-x-2;
   @apply transition-all duration-300 overflow-hidden cursor-pointer;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2),
-    0 0 30px rgba(255, 255, 255, 0.1);
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: white;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--tci-dark);
 }
 
 .language-switcher:hover {
   transform: translateY(-2px) scale(1.05);
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.3),
-    0 0 40px rgba(255, 255, 255, 0.2),
-    0 0 50px rgba(124, 192, 75, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border: 2px solid white;
 }
 
 .language-switcher:active {
