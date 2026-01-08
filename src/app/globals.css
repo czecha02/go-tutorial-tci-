@@ -69,19 +69,11 @@ a {
 
 /* Language Switcher Button */
 .language-switcher {
-  @apply relative px-4 py-2.5 rounded-2xl font-bold flex items-center space-x-2;
-  @apply transition-all duration-300 overflow-hidden cursor-pointer;
-  background: white;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  color: var(--tci-dark);
+  @apply relative px-4 py-2.5 rounded-2xl font-bold flex items-center space-x-2 transition-all duration-300 overflow-hidden cursor-pointer bg-white text-gray-800 shadow-md border-2 border-white/80;
 }
 
 .language-switcher:hover {
-  transform: translateY(-2px) scale(1.05);
-  background: white;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  border: 2px solid white;
+  @apply transform -translate-y-0.5 scale-105 shadow-lg border-white;
 }
 
 .language-switcher:active {
