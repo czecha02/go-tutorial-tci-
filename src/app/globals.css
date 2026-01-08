@@ -452,7 +452,7 @@ a {
 
 /* Onboarding Tour */
 .onboarding-overlay {
-  @apply fixed inset-0 bg-black bg-opacity-50 z-[100] backdrop-blur-sm;
+  @apply fixed inset-0 bg-black bg-opacity-50 z-[100] backdrop-blur-sm pointer-events-none;
 }
 
 .onboarding-tour {

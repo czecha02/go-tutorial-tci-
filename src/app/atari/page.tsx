@@ -162,9 +162,9 @@ export default function AtariPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-8">
         {/* Game Board */}
-        <div className="lg:col-span-2">
+        <div className="flex justify-center">
           <BoardSvg
             size={580}
             stones={boardStones}

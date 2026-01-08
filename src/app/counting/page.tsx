@@ -597,8 +597,8 @@ export default function CountingPage() {
           </div>
 
           {/* Interactive Board */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="flex justify-center lg:justify-start">
+          <div className="grid grid-cols-1 gap-12">
+            <div className="flex justify-center">
               <div className="inline-block">
                 <BoardSvg
                   size={580}

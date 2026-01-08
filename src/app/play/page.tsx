@@ -118,9 +118,9 @@ export default function PlayBotPage() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="grid grid-cols-1 gap-12">
                 {/* Board Area */}
-                <div className="lg:col-span-7 flex justify-center">
+                <div className="flex justify-center">
                     <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-200">
                         <BoardSvg
                             size={500}
@@ -133,7 +133,7 @@ export default function PlayBotPage() {
                 </div>
 
                 {/* Controls & Info */}
-                <div className="lg:col-span-5 space-y-8">
+                <div className="space-y-8">
                     {/* Status Card */}
                     <div className="bg-gradient-to-br from-tci-light to-white rounded-3xl p-8 shadow-xl border border-gray-100">
                         <h2 className="text-2xl font-bold text-tci-dark mb-6">

@@ -230,8 +230,8 @@ export default function EyesPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div className="flex justify-center lg:justify-start">
+      <div className="grid grid-cols-1 gap-12">
+        <div className="flex justify-center">
           <div
             className="inline-block"
             onMouseMove={handleMouseMove}
